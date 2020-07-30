@@ -1,0 +1,26 @@
+.expand_button {
+    border-radius: 10%;
+    border: 0;
+    background-color: transparent;
+}
+
+.expand_button:hover {
+    background-color: rgb(203, 215, 223);
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.dropdown_option:hover {
+    background-color: rgb(203, 215, 223);
+}
+
+#dropdown_search {
+    font-size: 12pt;
+    width: 200px;
+}
+
+#dropdown_button {
+    padding: 10px;
+}

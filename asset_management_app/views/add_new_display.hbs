@@ -1,0 +1,30 @@
+{{#each asset}}
+    <form action="add_new_result" method="get">
+        <div class="form-group">
+            <label>Asset ID</label>
+            <input readonly="readonly" class="form-control" name="id"  value="{{this.id}}">
+        </div>
+        <div class="form-group">
+            <label>Asset Name</label>
+            <input class="form-control" name="name">
+        </div>
+        <div class="form-group">
+            <label>Asset Type</label>
+            <select class="form-control" name="type" value="Select">
+                <option value = "1">Computer Server</option>
+                <option value = "2">Desktop</option>
+                <option value = "3">Laptop</option>
+                <option value = "4">Biotech Machine</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Purchase Date</label>
+            <input class="form-control" name="purchase_date">
+        </div>
+        <div class="form-group">
+            <label>Purchase Price (USD)</label>
+            <input class="form-control" name="purchase_price">
+        </div>
+        <button type="submit" class="btn btn-default">Done</button>
+    </form>
+{{/each}}

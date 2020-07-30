@@ -1,0 +1,25 @@
+<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Asset Name</th>
+        <th>Asset Type</th>
+        <th>Purchase Date</th>
+        <th></th>
+    </tr>
+    {{#each asset}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.type}}</td>
+            <td>{{this.purchase_date}}</td>
+            <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}})"><span class="caret"></span></button></td>
+        </tr>
+        <tr>
+            <td colspan="5" id="{{this.id}}" style="display: none;">
+                <div>
+                    <span class="bold">Purchase Price:</span> {{this.purchase_price}}
+                </div>
+            </td>
+        </tr>
+    {{/each}}
+</table>
