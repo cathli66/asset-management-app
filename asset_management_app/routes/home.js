@@ -217,7 +217,10 @@ exports.edit_form = function(req, res) {
         else {
             asset_type = "Biotech Machine";
         }
-        s.push({id: results[0].asset_id, name: results[0].asset_name, type: asset_type, purchase_date: results[0].purchase_date, purchase_price: results[0].purchase_price.toFixed(2)});
+        s.push({id: results[0].asset_id, name: results[0].asset_name, type: asset_type, purchase_date: results[0].purchase_date, purchase_price: results[0].purchase_price.toFixed(2), 
+        manu: results[0].manufacturer, s_expire: results[0].support_expiration, annual_s_cost: results[0].annual_support_cost, dep_sched: results[0].depreciation_schedule, 
+        dep_amount: results[0].depreciated_amount, res_value: results[0].residual_value, firmware_lvl: results[0].firmware_level, os_type: results[0].os_type, os_ver: results[0].os_version,
+        s_con: results[0].support_contact, dep: results[0].department, sal_name: results[0].salution_name, serial: results[0].serial_number, internal_con: results[0].internal_contact});
         var info = {
             // authenticated: isAuthed,
             asset: s
@@ -227,12 +230,19 @@ exports.edit_form = function(req, res) {
 }
 
 exports.edit_result = function(req, res) {
-    var id = parseInt(req.query.id);
-    var name = req.query.name;
-    var type = parseInt(req.query.type);
-    var purchase_date = req.query.purchase_date;
-    var purchase_price = parseFloat(req.query.purchase_price);
-    pool.query('UPDATE asset_list SET asset_name = ?, type_id = ?, purchase_date = ?, purchase_price = ? WHERE asset_id = ?', [name, type, purchase_date, purchase_price, id], function (error, results, fields) {
+    var data_arr = [];
+    Object.keys(req.query).forEach(function (item) {
+        if (req.query[item]) {
+            data_arr.push(req.query[item]);
+        }
+        else {
+            data_arr.push(null);
+        }
+    })
+    // put first index on the last
+    data_arr.push(data_arr.shift());
+    var query_str = 'UPDATE asset_list SET asset_name = ?, type_id = ?, purchase_date = ?, purchase_price = ?, manufacturer = ?, support_expiration = ?, annual_support_cost = ?, depreciation_schedule = ?, depreciated_amount = ?, residual_value = ?, firmware_level = ?, os_type = ?, os_version = ?, support_contact = ?, department = ?, salution_name = ?, serial_number = ?, internal_contact = ? WHERE asset_id = ?';
+    pool.query(query_str, data_arr, function (error, results, fields) {
         if (error) throw error;
         res.redirect('/');
     });
@@ -246,21 +256,20 @@ exports.add_new = [get_all_ids, function(req, res) {
     var info = {
         asset : [{id: new_id}]
     };
-    res.render("add_new_display", info)
+    res.render("add_new_display", info);
 }]
 
 exports.add_new_result = function(req, res) {
-    var id = parseInt(req.query.id);
-    var name = req.query.name;
-    var type = parseInt(req.query.type);
-    var purchase_date = req.query.purchase_date;
-    var purchase_price = parseFloat(req.query.purchase_price);
-    // if a field is not filled out, do something like this:
-    // var dep_price = NULL
-    // if (req.query.dep_price) {
-    //     var dep_price = parseFloat(req.query.dep_price)
-    // }
-    pool.query('INSERT INTO asset_list VALUES(?, ?, ?, ?, ?)', [id, name, type, purchase_date, purchase_price], function (error, results, fields) {
+    var data_arr = [];
+    Object.keys(req.query).forEach(function (item) {
+        if (req.query[item]) {
+            data_arr.push(req.query[item]);
+        }
+        else {
+            data_arr.push(null);
+        }
+    })
+    pool.query('INSERT INTO asset_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data_arr, function (error, results, fields) {
         if (error) throw error;
         res.redirect('/');
     });

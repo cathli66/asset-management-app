@@ -1,16 +1,17 @@
 {{#each asset}}
-    <form action="edit_result" method="get">
+    <form name="edit_form" action="edit_result" onsubmit="return validateEditForm()" method="get">
         <div class="form-group">
             <label>Asset ID</label>
             <input readonly="readonly" class="form-control" name="id"  value="{{this.id}}">
         </div>
         <div class="form-group">
             <label>Asset Name</label>
-            <input class="form-control" name="name" value="{{this.name}}">
+            <input class="form-control" name="name" value="{{this.name}}" type="text" required>
         </div>
         <div class="form-group">
             <label>Asset Type</label>
-            <select class="form-control" name="type" value="{{this.type}}">
+            {{!-- value = this.type does not work, find another way --}}
+            <select class="form-control" type="text" name="type" value="{{this.type}}">
                 <option value = "1">Computer Server</option>
                 <option value = "2">Desktop</option>
                 <option value = "3">Laptop</option>
@@ -19,11 +20,67 @@
         </div>
         <div class="form-group">
             <label>Purchase Date</label>
-            <input class="form-control" name="purchase_date" value="{{this.purchase_date}}">
+            <input class="form-control" type="text" name="purchase_date" value="{{this.purchase_date}}">
         </div>
         <div class="form-group">
-            <label>Purchase Price (USD)</label>
-            <input class="form-control" name="purchase_price" value="{{this.purchase_price}}">
+            <label>Purchase Price without $ (USD)</label>
+            <input class="form-control" type="number" step="0.01" name="purchase_price" value="{{this.purchase_price}}">
+        </div>
+        <div class="form-group">
+            <label>Manufacturer</label>
+            <input class="form-control" type="text" name="manu" value="{{this.manu}}">
+        </div>
+        <div class="form-group">
+            <label>Support Expiration</label>
+            <input class="form-control" type="text" name="s_expire" value="{{this.s_expire}}">
+        </div>
+        <div class="form-group">
+            <label>Annual Support Cost</label>
+            <input class="form-control" type="number" step="0.01" name="annual_s_cost" value="{{this.annual_s_cost}}">
+        </div>
+        <div class="form-group">
+            <label>Depreciation Schedule</label>
+            <input class="form-control" type="text" name="depre_sched" value="{{this.depre_sched}}">
+        </div>
+        <div class="form-group">
+            <label>Depreciated Amount</label>
+            <input class="form-control" type="number" step="0.01" name="depre_amount" value="{{this.depre_amount}}">
+        </div>
+        <div class="form-group">
+            <label>Residual Value</label>
+            <input class="form-control" type="number" step="0.01" name="resid_val" value="{{this.resid_val}}">
+        </div>
+        <div class="form-group">
+            <label>Firmware Level</label>
+            <input class="form-control" type="text" name="firmware_lvl" value="{{this.firmware_lvl}}">
+        </div>
+        <div class="form-group">
+            <label>OS Type</label>
+            <input class="form-control" type="text" name="os_type" value="{{this.os_type}}">
+        </div>
+        <div class="form-group">
+            <label>OS Version</label>
+            <input class="form-control" type="text" name="os_ver" value="{{this.os_ver}}">
+        </div>
+        <div class="form-group">
+            <label>Support Contact</label>
+            <input class="form-control" type="text" name="s_con" value="{{this.s_con}}">
+        </div>
+        <div class="form-group">
+            <label>Department</label>
+            <input class="form-control" type="text" name="dep" value="{{this.dep}}">
+        </div>
+        <div class="form-group">
+            <label>Salution Name</label>
+            <input class="form-control" type="text" name="sal_name" value="{{this.sal_name}}">
+        </div>
+        <div class="form-group">
+            <label>Serial Number</label>
+            <input class="form-control" type="text" name="serial" value="{{this.serial}}">
+        </div>
+        <div class="form-group">
+            <label>Internal Contact</label>
+            <input class="form-control" type="text" name="internal_con" value="{{this.internal_con}}">
         </div>
         <button type="submit" class="btn btn-default">Done</button>
     </form>
