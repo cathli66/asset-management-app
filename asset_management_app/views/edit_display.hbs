@@ -1,5 +1,6 @@
 {{#each asset}}
-    <form name="edit_form" action="edit_result" onsubmit="return validateEditForm()" method="get">
+<div onload="setSelectedIndex('add_form', {{this.type}})">
+    <form id="edit_form" name="edit_form" action="edit_result" onsubmit="return validateEditForm()" method="get">
         <div class="form-group">
             <label>Asset ID</label>
             <input readonly="readonly" class="form-control" name="id"  value="{{this.id}}">
@@ -11,7 +12,7 @@
         <div class="form-group">
             <label>Asset Type</label>
             {{!-- value = this.type does not work, find another way --}}
-            <select class="form-control" type="text" name="type" value="{{this.type}}">
+            <select class="form-control" type="text" name="type">
                 <option value = "1">Computer Server</option>
                 <option value = "2">Desktop</option>
                 <option value = "3">Laptop</option>
@@ -48,7 +49,7 @@
         </div>
         <div class="form-group">
             <label>Residual Value</label>
-            <input class="form-control" type="number" step="0.01" name="resid_val" value="{{this.resid_val}}">
+            <input class="form-control" type="number" step="0.01" name="res_val" value="{{this.res_val}}">
         </div>
         <div class="form-group">
             <label>Firmware Level</label>
@@ -84,4 +85,14 @@
         </div>
         <button type="submit" class="btn btn-default">Done</button>
     </form>
+</div>
 {{/each}}
+
+<script type="text/javascript">
+    function setSelectedIndex(id, i) {
+        console.log("function called, type_id = "+i);
+        s = document.getElementById(id);
+        s.options[i].selected = true;
+        return;
+    }
+</script>

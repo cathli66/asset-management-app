@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(213, 238, 255);
+}
+
 .expand_button {
     border-radius: 10%;
     border: 0;
@@ -18,9 +22,36 @@
 
 #dropdown_search {
     font-size: 12pt;
-    width: 200px;
+    width: 190px;
 }
 
 #dropdown_button {
     padding: 10px;
+}
+
+#logo {
+    padding: 10px;
+}
+
+#main_table {
+    background-color: white;
+    padding: 40px;
+    border-radius: 3%;
+}
+
+#navbar {
+    background-color: white;
+}
+
+#advanced_search {
+    padding-left: 200px;
+    padding-right: 200px;
+    padding-bottom: 10px;
+    text-align: left; 
+}
+
+#search_form {
+    padding: 20px;
+    background-color: white;
+    border-radius: 2%;
 }

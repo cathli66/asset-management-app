@@ -17,8 +17,9 @@
     <link href="css/app.css" rel="stylesheet">
 </head>
     <body>
-        <nav class="navbar navbar-default container-fluid">
+        <nav class="navbar navbar-default container-fluid" id="navbar">
             <ul class="nav navbar-nav">
+                <li><img id="logo" src="SalubrisBio_logo.jpg" alt="logo"></li>
                 <li class="dropdown" id="dropdown_search">
                     <a href="#" id="search_menu" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search by Category <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -36,8 +37,7 @@
         </nav>
 
         <div id="advanced_search" style="display: none;">
-            <form action="advanced_search_result" method="get">
-                <p>Asset ID <input type="text" name="id"></p>
+            <form id="search_form" action="advanced_search_result" method="get">
                 <p>Asset Name <input type="text" name="name"></p>
                 <p>
                     <label>Asset Type</label>
@@ -49,8 +49,18 @@
                         <option value = "4">Biotech Machine</option>
                     </select>
                 </p>
+                <p>Manufacturer <input type="text" name="manu"></p>
+                <p>Price Range</p>
+                <input type="radio" id="range0" name="price_range" value="0">
+                <label for="range0">Any Range</label><br>
+                <input type="radio" id="range1" name="price_range" value="1">
+                <label for="range1">$0 - $500</label><br>
+                <input type="radio" id="range2" name="price_range" value="2">
+                <label for="range2">$500 - $1000</label><br>
+                <input type="radio" id="range3" name="price_range" value="3">
+                <label for="range3">> $1000</label><br>
+                <button type="submit">Search</button>
             </form>
-            <button type="button" onclick="advanced_search_result()">Search</button>
         </div>
 
         <div class="container" id="main_table">
@@ -72,10 +82,29 @@
                         <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}})"><span class="caret"></span></button></td>
                     </tr>
                     <tr>
-                        <td colspan="5" id="{{this.id}}" style="display: none;">
+                        <td colspan="2" id="{{this.id}}_col1" style="display: none;">
                             <div>
                                 <span class="bold">Purchase Price:</span> {{this.purchase_price}} <br>
+                                <span class="bold">Manufacturer:</span> {{this.manu}} <br>
+                                <span class="bold">Support Expiration:</span> {{this.s_expire}} <br>
+                                <span class="bold">Annual Support cost:</span> {{this.annual_s_cost}} <br>
+                                <span class="bold">Depreciation Schedule:</span> {{this.dep_sched}} <br>
+                                <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
+                                <span class="bold">Residual Value:</span> {{this.res_val}} <br>
                                 <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                            </div>
+                        </td>
+                        <td colspan="3" id="{{this.id}}_col2" style="display: none;">
+                            <div>
+
+                                <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
+                                <span class="bold">OS Type:</span> {{this.os_type}} <br>
+                                <span class="bold">OS Version:</span> {{this.os_ver}} <br>
+                                <span class="bold">Support Contact:</span> {{this.s_con}} <br>
+                                <span class="bold">Department:</span> {{this.dep}} <br>
+                                <span class="bold">Salution Name:</span> {{this.sal_name}} <br>
+                                <span class="bold">Serial Number:</span> {{this.serial}} <br>
+                                <span class="bold">Internal Contact:</span> {{this.internal_con}} <br>
                             </div>
                         </td>
                     </tr>
@@ -95,7 +124,9 @@
             //    $("#135").slideToggle();
             // });
             function expand(id) {
-                $("#"+id).slideToggle();
+                console.log(id);
+                $("#"+id+"_col1").slideToggle("fast");
+                $("#"+id+"_col2").slideToggle("fast");
             }
 
             var selected = 0;
@@ -127,14 +158,16 @@
             }
 
             function advanced_search_result() {
-                var id = document.querySelector('input[name="id"]').value;
                 var name = document.querySelector('input[name="name"]').value;
-                var type = document.getElementById('asset_type').value;  // not sure ?
+                var type = document.getElementById('asset_type').value;
+                var manu = document.querySelector('input[name="manu"]').value;
+                var price_range = document.querySelector('input[name="price_range"]').value;
+                console.log("price range id:" + price_range);
                 // var form_string = $("#the_form").serialize();
                 var ajax_params = {
                     'url' : "http://localhost:8000/advanced_search_result",
                     'type' : "get",
-                    'data' : {'id' : id, 'name' : name, "type" : type},
+                    'data' : {'name' : name, 'type' : type, 'manu' : manu, 'price_range' : price_range},
                     'success' : onServerResponse1
                 }
                 $.ajax( ajax_params ); 
