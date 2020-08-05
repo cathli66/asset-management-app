@@ -135,7 +135,9 @@ function get_dep(req, res, next) {
     }
 }
 
-exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_dep, get_all_ids, function(req, res) {
+const size = 10;
+var results_list = [];
+exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_dep, get_all_ids, function(req, res, next) {
     // console.log(res.locals.name_array.length);
     // console.log(res.locals.type_array.length);
     // console.log("");
@@ -159,7 +161,7 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
         if (!id_list.length) {
             res.render("search_fail_msg");
         }
-        var results_list = [];
+        results_list = [];
         for (n = 0; n < id_list.length; n++) {
             id = id_list[n]
             pool.query('SELECT * FROM asset_management.asset_list WHERE asset_id = ?', id, function (error, results, fields) {
@@ -183,17 +185,23 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                         dep_amount: results[i].depreciated_amount, res_val: results[i].residual_value, firmware_lvl: results[i].firmware_level, os_type: results[i].os_type, os_ver: results[i].os_version,
                         s_con: results[i].support_contact, dep: results[i].department, sal_name: results[i].salution_name, serial: results[i].serial_number, internal_con: results[i].internal_contact});
                 }
+                var num_pages = Math.round(results_list.length/size);
                 if (results_list.length == id_list.length) {
                     var info = {
-                        asset: results_list
+                        asset: results_list.slice(0, 10),
+                        page: 1,
+                        start: 0,
+                        end: 10,
+                        total_res: results_list.length
                     };
                     res.render("search_result", info);
+                    next();
                 }
             });
         }
     }
     else {
-        var results_list = [];
+        results_list = [];
         pool.query('SELECT * FROM asset_management.asset_list', function (error, results, fields) {
             if (error) throw error;
             for (i = 0; i < results.length; i++) {
@@ -216,9 +224,64 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                     s_con: results[i].support_contact, dep: results[i].department, sal_name: results[i].salution_name, serial: results[i].serial_number, internal_con: results[i].internal_contact});
             }
             var info = {
-                asset: results_list
+                asset: results_list.slice(0, 10),
+                page: 1,
+                start: 0,
+                end: 0+size,
+                total_res: results_list.length
             };
             res.render("search_result", info);
+            next();
         });
     }
-}]
+}, pageButtons(Math.round(results_list.length/size))]
+
+function change_page(page) {
+    var start = (page-1)*size;
+    var end = page*size;
+    var info = {
+        asset: results_list.slice(start, end),
+        page: page,
+        start: start,
+        end: end,
+        total_res: results_list.length
+    };
+    res.render("search_result", info);
+}
+
+function pageButtons(pages) {
+    var state = {
+        'querySet': results_list,
+        'page': 1,
+        'rows': 5,
+        'window': 5,
+    };
+    var wrapper = document.getElementById('pagination-wrapper');
+    wrapper.innerHTML = ``;
+    var maxLeft = (state.page - Math.floor(state.window / 2));
+    var maxRight = (state.page + Math.floor(state.window / 2));
+    if (maxLeft < 1) {
+        maxLeft = 1;
+        maxRight = state.window;
+    }
+    if (maxRight > pages) {
+        maxLeft = pages - (state.window - 1);
+        if (maxLeft < 1) {
+            maxLeft = 1;
+        }
+        maxRight = pages;
+    }
+    for (var page = maxLeft; page <= maxRight; page++) {
+        wrapper.innerHTML += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
+    }
+    if (state.page != 1) {
+        wrapper.innerHTML = `<button value=${1} class="page btn btn-sm btn-info">&#171; First</button>` + wrapper.innerHTML;
+    }
+    if (state.page != pages) {
+        wrapper.innerHTML += `<button value=${pages} class="page btn btn-sm btn-info">Last &#187;</button>`;
+    }
+    $('.page').on('click', function() {  
+        state.page = Number($(this).val());
+        change_page(state.page);
+    })
+}
