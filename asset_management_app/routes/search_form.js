@@ -29,7 +29,6 @@ function get_name(req, res, next) {
         });
     }
     else {
-        console.log(typeof next);
         next();
     }
 }
@@ -193,7 +192,7 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                         start: 0,
                         end: 10,
                         total_res: results_list.length,
-                        num_pag: Math.round(results_list.length/size)
+                        num_pag: Math.ceil(results_list.length/size)
                     };
                     res.render("search_result", info);
                 }
@@ -229,7 +228,7 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                 start: 0,
                 end: 0+size,
                 total_res: results_list.length,
-                num_pag: Math.round(results_list.length/size)
+                num_pag: Math.ceil(results_list.length/size)
             };
             res.render("search_result", info);
         });

@@ -20,6 +20,10 @@ body {
     font-size: 14pt;
 }
 
+.font2 {
+    font-size: 18pt;
+}
+
 .dropdown_option:hover {
     background-color: rgb(203, 215, 223);
 }
@@ -60,16 +64,16 @@ th {
 }
 
 #navbar {
-    background-color: rgb(135, 184, 212);
+    background-color: rgb(163, 206, 231);
     padding: 15px;
 }
 
-#advanced_search {
+.form_container {
     padding: 30px 200px 10px 200px;
     text-align: left; 
 }
 
-#search_form {
+.form {
     padding: 5px 40px 40px 40px;
     background-color: rgb(240, 240, 240);
     border-color: rgb(114, 114, 114);
@@ -91,7 +95,7 @@ th {
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 10px;
-    width: 54%;
+    width: 53%;
 }
 
 #name_textbox {
@@ -102,7 +106,7 @@ th {
     padding-left: 20px;
 }
 
-#submit_button {
+.button {
     margin-top: 20px;
     padding: 10px;
     border: none;
@@ -110,7 +114,31 @@ th {
     color: white;
 }
 
-#paging_container {
-    text-align: center;
-    margin-bottom: 50px;
+#delete_button {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    padding: 15px;
+}
+
+.pagination-container {
+    position: absolute;
+    /* display: block; */
+    bottom: auto;
+    margin-bottom: 20px;
+    left: 45%
+    /* margin: -100px 0 0 0; */
+}
+
+.page {
+    margin: 3px;
+}
+
+#add_new_icon {
+    font-size: 16pt;
+}
+
+#new_asset {
+    padding-top: 30px;
+    margin-top: 20px;
 }

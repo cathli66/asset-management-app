@@ -1,16 +1,16 @@
 {{#each asset}}
-    <form name="add_form" action="add_new_result" onsubmit="return validateAddForm()" method="get">
+    <form name="add_form" id="new_asset" class="form" action="add_new_result" onsubmit="return validateAddForm()" method="get">
         <div class="form-group">
             <label>Asset ID</label>
             <input readonly="readonly" class="form-control" name="id"  value="{{this.id}}">
         </div>
         <div class="form-group">
-            <label>Asset Name</label>
+            <label>Asset Name <span style="color:red;">*</span></label>
             <input class="form-control" type="text" name="name" required>
         </div>
         <div class="form-group">
-            <label>Asset Type</label>
-            <select class="form-control" name="type" value="Select">
+            <label>Asset Type <span style="color:red;">*</span></label>
+            <select class="form-control" name="type" value="Select" required>
                 <option value = "1">Computer Server</option>
                 <option value = "2">Desktop</option>
                 <option value = "3">Laptop</option>
@@ -18,7 +18,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label>Purchase Date</label>
+            <label>Purchase Date <span style="color:red;">*</span></label>
             <input class="form-control" type="text" name="purchase_date" required>
         </div>
         <div class="form-group">
@@ -81,7 +81,8 @@
             <label>Internal Contact</label>
             <input class="form-control" type="text" name="internal_con">
         </div>
-        <button type="submit" class="btn btn-default">Done</button>
+        <p style="color:red;">Required fields are marked with *</p>
+        <button type="submit" class="button">Done</button>
     </form>
 {{/each}}
 

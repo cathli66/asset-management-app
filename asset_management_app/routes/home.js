@@ -147,3 +147,11 @@ exports.add_new_result = function(req, res) {
         res.redirect('/');
     });
 }
+
+exports.delete_asset = function(req, res) {
+        var id = req.query.id;
+        pool.query('DELETE FROM asset_list WHERE asset_id = ?', id, function (error, results, fields) {
+            if (error) throw error;
+            res.render("form_display")
+        });
+}
