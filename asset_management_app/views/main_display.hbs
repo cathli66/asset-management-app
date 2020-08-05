@@ -19,7 +19,7 @@
     <body>
         <nav class="navbar navbar-default container-fluid" id="navbar">
             <ul class="nav navbar-nav">
-                <li><img id="logo" src="SalubrisBio_logo.jpg" alt="logo"></li>
+                <li><img class="padding" src="SalubrisBio_logo.jpg" alt="logo"></li>
                 <li class="dropdown" id="dropdown_search">
                     <a href="#" id="search_menu" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search by Category <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -32,11 +32,11 @@
                     </ul>
                 </li>
                 <li id="dropdown_button"><button type="button" class="btn btn-default" onclick="search_by_category()">Submit</button></li>
-                <li><a onclick="toggle_advanced_search()">Advanced Search</a></li>
+                {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
             </ul>
         </nav>
 
-        <div id="advanced_search" style="display: none;">
+        {{!-- <div id="advanced_search" style="display: none;">
             <form id="search_form" action="advanced_search_result" method="get">
                 <p>Asset Name <input type="text" name="name"></p>
                 <p>
@@ -60,8 +60,9 @@
                 <input type="radio" id="range3" name="price_range" value="3">
                 <label for="range3">> $1000</label><br>
                 <button type="submit">Search</button>
+                <p>Department <input type="text" name="dep"></p>
             </form>
-        </div>
+        </div> --}}
 
         <div class="container" id="main_table">
             <table class="table table-hover">
@@ -186,7 +187,7 @@
                 $.ajax( ajax_params ); 
             }
             function onServerResponse2 (responseObj) {
-                document.getElementById('main_table').innerHTML = responseObj;
+                document.getElementById('main_table_container').innerHTML = responseObj;
             };
 
             function add_new() {
@@ -199,7 +200,7 @@
                 $.ajax( ajax_params ); 
             }
             function onServerResponse3 (responseObj) {
-                document.getElementById('main_table').innerHTML = responseObj;
+                document.getElementById('main_table_container').innerHTML = responseObj;
             };
 
             function validateEditForm() {

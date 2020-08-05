@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assets Complete List</title>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- 
+         IMPORTANT ITEM #1 - THIS MUST BE IN THE HEADER.
+         THIS IS THE CORE BOOTSTRAP CSS FROM A CDN
+     --> 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-default container-fluid" id="navbar">
+            <ul class="nav navbar-nav">
+                <li><img class="padding" src="SalubrisBio_logo.jpg" alt="logo"></li>
+                {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
+            </ul>
+        </nav>
+    <div id="advanced_search">
+        <form id="search_form" action="advanced_search_result" method="get">
+            <h2>Search Assets</h2><br>            
+            <select name = "asset_type" id="type_dropdown">
+                <option value = "0">Select Type</option>
+                <option value = "1">Computer Server</option>
+                <option value = "2">Desktop</option>
+                <option value = "3">Laptop</option>
+                <option value = "4">Biotech Machine</option>
+            </select>
+            <input id="name_textbox" class="textbox" type="text" name="name" placeholder="Asset Name">
+            <div class="row">
+                <div class="col-md-6"><span class="font1">Search By Manufacturer: </span><input type="text" class="textbox" name="manu" placeholder="Manufacturer"></div>
+                <div class="col-md-6"><span class="font1">Search By Department: </span><input type="text" class="textbox" name="dep" placeholder="Department"></div>
+            </div>
+            <p class="font1">Price Range:</p>
+            <div id="ranges">
+                <input type="radio" id="range0" name="price_range" value="0">
+                <label for="range0">Any Range</label><br>
+                <input type="radio" id="range1" name="price_range" value="1">
+                <label for="range1">$0 - $500</label><br>
+                <input type="radio" id="range2" name="price_range" value="2">
+                <label for="range2">$500 - $1000</label><br>
+                <input type="radio" id="range3" name="price_range" value="3">
+                <label for="range3">> $1000</label><br>
+            </div>
+            <button type="submit" id="submit_button"><span class="glyphicon glyphicon-search"></span> Search Assets</button>
+        </form>
+    </div>
+</body>
+</html>

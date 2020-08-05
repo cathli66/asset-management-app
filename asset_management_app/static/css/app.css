@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(213, 238, 255);
+    background-color: white;
 }
 
 .expand_button {
@@ -16,8 +16,16 @@ body {
     font-weight: bold;
 }
 
+.font1 {
+    font-size: 14pt;
+}
+
 .dropdown_option:hover {
     background-color: rgb(203, 215, 223);
+}
+
+.padding {
+    padding: 10px;
 }
 
 #dropdown_search {
@@ -25,33 +33,79 @@ body {
     width: 190px;
 }
 
-#dropdown_button {
-    padding: 10px;
-}
-
-#logo {
-    padding: 10px;
-}
-
-#main_table {
+#main_table_container {
     background-color: white;
     padding: 40px;
-    border-radius: 3%;
+}
+
+/* tr:hover {
+    border-left: 3px solid;
+    border-color: rgb(76, 126, 160);
+} */
+
+td {
+    font-size: 12pt;
+}
+
+th {
+    font-size: 10pt;
+    background-color: rgb(76, 126, 160);
+    color: white;
+}
+
+.no_hover:hover {
+    font-size: 10pt;
+    background-color: rgb(76, 126, 160);
+    color: white;
 }
 
 #navbar {
-    background-color: white;
+    background-color: rgb(135, 184, 212);
+    padding: 15px;
 }
 
 #advanced_search {
-    padding-left: 200px;
-    padding-right: 200px;
-    padding-bottom: 10px;
+    padding: 30px 200px 10px 200px;
     text-align: left; 
 }
 
 #search_form {
-    padding: 20px;
+    padding: 5px 40px 40px 40px;
+    background-color: rgb(240, 240, 240);
+    border-color: rgb(114, 114, 114);
+    border-style: solid;
+    border-width: 1pt;
+    font-size: 12pt;
+}
+
+#type_dropdown {
+    border: none;
+    background-color: rgb(76, 126, 160);
+    color: white;
+    padding: 10px;
+}
+
+.textbox {
+    border: none;
     background-color: white;
-    border-radius: 2%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    width: 54%;
+}
+
+#name_textbox {
+    width: 81%;
+}
+
+#ranges {
+    padding-left: 20px;
+}
+
+#submit_button {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background-color: rgb(76, 126, 160);
+    color: white;
 }

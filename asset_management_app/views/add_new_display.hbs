@@ -84,3 +84,18 @@
         <button type="submit" class="btn btn-default">Done</button>
     </form>
 {{/each}}
+
+<script>
+    function validateAddForm() {
+        var p_date = document.forms["add_form"]["purchase_date"].value;
+        if (!(/^\d{4}-\d{2}-\d{2}$/).test(p_date)) {
+            alert("Please enter a valid date");
+            return false;
+        }
+        var p_price = document.forms["add_form"]["purchase_price"].value;
+        if (!(/^\d*(\.\d{2})?$/).test(p_price)) {
+            alert("Please enter a valid price");
+            return false;
+        }
+    }; 
+</script>
