@@ -10,4 +10,5 @@ exports.do_set = function(app) {
     app.get('/edit_result', home.edit_result);
     app.get('/add_new', home.add_new);
     app.get('/add_new_result', home.add_new_result);
+    app.get('/page', search_form.page);
 };

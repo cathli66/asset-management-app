@@ -109,3 +109,8 @@ th {
     background-color: rgb(76, 126, 160);
     color: white;
 }
+
+#paging_container {
+    text-align: center;
+    margin-bottom: 50px;
+}

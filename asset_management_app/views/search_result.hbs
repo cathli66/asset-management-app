@@ -16,7 +16,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link href="css/app.css" rel="stylesheet">
 </head>
-<body>
+<body onload="pageButtons({{num_pag}})">
     <nav class="navbar navbar-default container-fluid" id="navbar">
             <ul class="nav navbar-nav">
                 <li><img id="logo" src="SalubrisBio_logo.jpg" alt="logo"></li>
@@ -71,9 +71,13 @@
         </table>
         <button type="button" onclick="add_new()" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
     </div>
+
+    <div class="container">
+        <div id="pagination-wrapper"></div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript">
-        
         // FUNCTION FOR RESPONDING TO BUTTON PRESS
         // $("#toggle_").click(function(){
         //    $("#135").slideToggle();
@@ -116,21 +120,54 @@
             document.getElementById('main_table_container').innerHTML = responseObj;
         };
 
-        function validateEditForm() {
-            var p_date = document.forms["edit_form"]["purchase_date"].value;
-            if (!(/^\d{4}-\d{2}-\d{2}$/).test(p_date)) {
-                alert("Please enter a valid date");
-                return false;
+        const size = 3;
+        function pageButtons(pages) {
+            var state = {
+                'page': 1,
+                'rows': size,
+                'window': 5,
+            };
+            var wrapper = document.getElementById('pagination-wrapper');
+            wrapper.innerHTML = ``;
+            var maxLeft = (state.page - Math.floor(state.window / 2));
+            var maxRight = (state.page + Math.floor(state.window / 2));
+            if (maxLeft < 1) {
+                maxLeft = 1;
+                maxRight = state.window;
             }
-            var p_price = document.forms["edit_form"]["purchase_price"].value;
-            if (!(/^\d*(\.\d{2})?$/).test(p_price)) {
-                alert("Please enter a valid price");
-                return false;
+            if (maxRight > pages) {
+                maxLeft = pages - (state.window - 1);
+                if (maxLeft < 1) {
+                    maxLeft = 1;
+                }
+                maxRight = pages;
             }
+            for (var page = maxLeft; page <= maxRight; page++) {
+                wrapper.innerHTML += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
+            }
+            if (state.page != 1) {
+                wrapper.innerHTML = `<button value=${1} class="page btn btn-sm btn-info">&#171; First</button>` + wrapper.innerHTML;
+            }
+            if (state.page != pages) {
+                wrapper.innerHTML += `<button value=${pages} class="page btn btn-sm btn-info">Last &#187;</button>`;
+            }
+            $('.page').click(function() {  
+                state.page = Number($(this).val());
+                var ajax_params = {
+                    'url' : "http://localhost:8000/page",
+                    'type' : "get",
+                    'data' : {'page' : state.page},
+                    'success' : onServerResponse4
+                }
+                $.ajax( ajax_params ); 
+            });
+            function onServerResponse4 (responseObj) {
+                document.getElementById('main_table_container').innerHTML = responseObj;
+            };
         };
-
     </script>
-    {{!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>--}}
+        
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 </body>
-
+</html>
