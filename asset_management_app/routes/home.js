@@ -12,8 +12,8 @@ var pool  = mysql.createPool({
     database        : 'asset_management'
 });
 
-exports.redir_search = function(req, res) {
-    res.redirect('/search')
+exports.redir_auth = function(req, res) {
+    res.redirect('/auth')
 }
 
 // exports.main_display = function(req, res){

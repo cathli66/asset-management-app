@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Management | Sign In</title>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- 
+         IMPORTANT ITEM #1 - THIS MUST BE IN THE HEADER.
+         THIS IS THE CORE BOOTSTRAP CSS FROM A CDN
+     --> 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+    <div class="form_container">
+        <p>{{failmsg}}</p>
+        <form id="signin_form" class="form" action="auth_result" method="get">
+            <h2>Please enter your credentials below.</h2><br>            
+            <p>Username:</p>
+            <input id="username" class="textbox" type="text" name="usr" placeholder="Username">
+            <p>Password:</p>
+            <input id="password" class="textbox" type="text" name="pwd" placeholder="Password">
+            <button type="submit" id="submit_button" class="button">Log In</button>
+        </form>
+    </div>
+</body>
+</html>

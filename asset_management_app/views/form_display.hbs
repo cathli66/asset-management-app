@@ -22,6 +22,9 @@
             <li><img class="padding" src="logo_noBackground.png" alt="logo"></li>
             {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
         </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
+        </ul>
     </nav>
     <div class="form_container" id="advanced_search">
         <form id="search_form" class="form" action="advanced_search_result" method="get">
@@ -53,11 +56,13 @@
         </form>
     </div>
 
+    {{#if isAdmin}}
     <div class="form_container" id="add_new">
         <button type="button" onclick="add_new()" class="button"><span class="bold font2">Add New Asset  </span><span class="glyphicon glyphicon-plus" id="add_new_icon" aria-hidden="true"></span></button>
         <span id="msg_wrapper"></span>
         <div id="new_asset_wrapper"></div>
     </div>
+    {{/if}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript">
