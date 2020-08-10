@@ -22,7 +22,15 @@
                 <li><img class="padding" src="logo_noBackground.png" alt="logo"></li>
                 {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+            {{#if loggedin}}
+                <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
+            {{else}}
+                <li><span class="font1" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
+            {{/if}}
+        </ul>
         </nav>
+    {{#if loggedin}}
     <div id="table&pagin">
         <div class="container" id="main_table_container">
             <table id="main_table" class="table table-hover">
@@ -51,13 +59,11 @@
                                 <span class="bold">Depreciation Schedule:</span> {{this.dep_sched}} <br>
                                 <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
                                 <span class="bold">Residual Value:</span> {{this.res_val}} <br>
-                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                                <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
                             </div>
                         </td>
                         <td colspan="3" id="{{this.id}}_col2" style="display: none;">
                             <div>
-
-                                <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
                                 <span class="bold">OS Type:</span> {{this.os_type}} <br>
                                 <span class="bold">OS Version:</span> {{this.os_ver}} <br>
                                 <span class="bold">Support Contact:</span> {{this.s_con}} <br>
@@ -65,6 +71,9 @@
                                 <span class="bold">Salution Name:</span> {{this.sal_name}} <br>
                                 <span class="bold">Serial Number:</span> {{this.serial}} <br>
                                 <span class="bold">Internal Contact:</span> {{this.internal_con}} <br>
+                                {{#if isAssetAdmin}}
+                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                                {{/if}}
                             </div>
                         </td>
                     </tr>
@@ -75,6 +84,9 @@
             <div id="pagination-wrapper"></div>
         </div>
     </div>
+    {{else}}
+        <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+    {{/if}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript">

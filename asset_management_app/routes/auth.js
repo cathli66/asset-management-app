@@ -10,20 +10,35 @@ var pool  = mysql.createPool({
 });
 
 exports.auth_form = function(req, res) {
-    res.render("auth_form");
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        // if the token does not exist, this means that the user has not logged in
+        req.session.loggedin = false;
+        res.render("auth_form");
+    } 
+    else {
+        var info = {
+            loggedin: req.session.loggedin
+        }
+        res.render('form_display', info)
+    }
 }
 
 exports.auth_result = function(req, res) {
-    var usr = req.query.usr;
-    var pwd = req.query.pwd
+    req.session.usr = req.query.usr;
+    req.sessinon.pwd = req.query.pwd;
     if (usr && pwd) {
         pool.query('SELECT * FROM users WHERE username = ?', usr, function (error, results, fields) {
             if (error) throw error;
-            if (pwd == results[0].pass) {
+            if (results && pwd == results[0].pass) {
+                req.session.isUserAdmin = results[0].user_admin;
+                req.session.isAssetAdmin = results[0].asset_admin;
+                req.session.firstname = results[0].firstname;
+                req.session.lastname = results[0].lastname;
                 var info = {
-                    isAdmin: results[0].admin_role,
-                    firstname: results[0].firstname,
-                    lastname: results[0].lastname
+                    isUserAdmin: req.session.isUserAdmin,
+                    isAssetAdmin: req.session.isAssetAdmin,
+                    firstname: req.session.firstname,
+                    lastname: req.session.lastname
                 };
                 res.render("form_display", info);    
             }
@@ -42,3 +57,8 @@ exports.auth_result = function(req, res) {
         res.render("auth_form", info);
     }
 }
+
+exports.logout = function(req, res) {
+    req.session = null;                                       // programmatically deletes the cookie
+    res.render("auth_form");
+};

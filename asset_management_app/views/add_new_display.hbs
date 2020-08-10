@@ -1,3 +1,4 @@
+{{#if authorized}}
 {{#each asset}}
     <form name="add_form" id="new_asset" class="form" action="add_new_result" method="get">
         <div class="form-group">
@@ -85,6 +86,9 @@
         <button type="submit" class="button">Done</button>
     </form>
 {{/each}}
+{{else}}
+    <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+{{/if}}
 
 <script>
     function validateAddForm() {

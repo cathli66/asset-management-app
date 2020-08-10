@@ -1,3 +1,4 @@
+{{#if authorized}}
 <div class="container" id="main_table_container">
     {{#each asset}}
     <button type="button" id="delete_button" onclick="delete_asset({{this.id}})" class="button">Delete Asset</button>
@@ -90,6 +91,9 @@
     </div>
     {{/each}}
 </div>
+{{else}}
+    <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+{{/if}}
 <script type="text/javascript">
     function setSelectedIndex(id, i) {
         console.log("function called, type_id = "+i);

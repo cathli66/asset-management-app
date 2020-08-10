@@ -13,7 +13,7 @@ var pool  = mysql.createPool({
 });
 
 exports.redir_auth = function(req, res) {
-    res.redirect('/auth')
+    res.redirect('/auth');
 }
 
 // exports.main_display = function(req, res){
@@ -86,72 +86,98 @@ function get_all_ids(req, res, next) {
 }
 
 exports.edit_form = function(req, res) {
-    var id = parseInt(req.query.id);
-    pool.query('SELECT * FROM asset_management.asset_list WHERE asset_id = ?', id, function (error, results, fields) {
-        if (error) throw error;
-        var s = [];
-        s.push({id: results[0].asset_id, name: results[0].asset_name, type: results[0].type_id, purchase_date: results[0].purchase_date, purchase_price: results[0].purchase_price.toFixed(2), 
-        manu: results[0].manufacturer, s_expire: results[0].support_expiration, annual_s_cost: results[0].annual_support_cost, dep_sched: results[0].depreciation_schedule, 
-        dep_amount: results[0].depreciated_amount, res_val: results[0].residual_value, firmware_lvl: results[0].firmware_level, os_type: results[0].os_type, os_ver: results[0].os_version,
-        s_con: results[0].support_contact, dep: results[0].department, sal_name: results[0].salution_name, serial: results[0].serial_number, internal_con: results[0].internal_contact});
-        var info = {
-            // authenticated: isAuthed,
-            asset: s
-        };
-        res.render("edit_display", info);
-    });
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
+    }
+    else {
+        var id = parseInt(req.query.id);
+        pool.query('SELECT * FROM asset_management.asset_list WHERE asset_id = ?', id, function (error, results, fields) {
+            if (error) throw error;
+            var s = [];
+            s.push({id: results[0].asset_id, name: results[0].asset_name, type: results[0].type_id, purchase_date: results[0].purchase_date, purchase_price: results[0].purchase_price.toFixed(2), 
+            manu: results[0].manufacturer, s_expire: results[0].support_expiration, annual_s_cost: results[0].annual_support_cost, dep_sched: results[0].depreciation_schedule, 
+            dep_amount: results[0].depreciated_amount, res_val: results[0].residual_value, firmware_lvl: results[0].firmware_level, os_type: results[0].os_type, os_ver: results[0].os_version,
+            s_con: results[0].support_contact, dep: results[0].department, sal_name: results[0].salution_name, serial: results[0].serial_number, internal_con: results[0].internal_contact});
+            var info = {
+                authorized: req.session.isAssetAdmin,
+                asset: s
+            };
+            res.render("edit_display", info);
+        });
+    } 
 }
 
 exports.edit_result = function(req, res) {
-    var data_arr = [];
-    Object.keys(req.query).forEach(function (item) {
-        if (req.query[item]) {
-            data_arr.push(req.query[item]);
-        }
-        else {
-            data_arr.push(null);
-        }
-    })
-    // put first index on the last
-    data_arr.push(data_arr.shift());
-    var query_str = 'UPDATE asset_list SET asset_name = ?, type_id = ?, purchase_date = ?, purchase_price = ?, manufacturer = ?, support_expiration = ?, annual_support_cost = ?, depreciation_schedule = ?, depreciated_amount = ?, residual_value = ?, firmware_level = ?, os_type = ?, os_version = ?, support_contact = ?, department = ?, salution_name = ?, serial_number = ?, internal_contact = ? WHERE asset_id = ?';
-    pool.query(query_str, data_arr, function (error, results, fields) {
-        if (error) throw error;
+    if ('loggedin' in req.session && req.session.loggedin && req.session.isAssetAdmin) {
+        var data_arr = [];
+        Object.keys(req.query).forEach(function (item) {
+            if (req.query[item]) {
+                data_arr.push(req.query[item]);
+            }
+            else {
+                data_arr.push(null);
+            }
+        })
+        // put first index on the last
+        data_arr.push(data_arr.shift());
+        var query_str = 'UPDATE asset_list SET asset_name = ?, type_id = ?, purchase_date = ?, purchase_price = ?, manufacturer = ?, support_expiration = ?, annual_support_cost = ?, depreciation_schedule = ?, depreciated_amount = ?, residual_value = ?, firmware_level = ?, os_type = ?, os_version = ?, support_contact = ?, department = ?, salution_name = ?, serial_number = ?, internal_contact = ? WHERE asset_id = ?';
+        pool.query(query_str, data_arr, function (error, results, fields) {
+            if (error) throw error;
+            res.redirect('/');
+        });
+    }
+    else {
         res.redirect('/');
-    });
+    }
 }
 
 exports.add_new = [get_all_ids, function(req, res) {
-    var new_id = Math.floor(Math.random() * 899 + 100);
-    while (res.locals.all_ids.includes(new_id)) {
-        new_id = Math.floor(Math.random() * 899 + 100);
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
     }
-    var info = {
-        asset : [{id: new_id}]
-    };
-    res.render("add_new_display", info);
+    else {
+        var new_id = Math.floor(Math.random() * 899 + 100);
+        while (res.locals.all_ids.includes(new_id)) {
+            new_id = Math.floor(Math.random() * 899 + 100);
+        }
+        var info = {
+            authorized: req.session.isAssetAdmin,
+            asset : [{id: new_id}]
+        };
+        res.render("add_new_display", info);    
+    }
 }]
 
 exports.add_new_result = function(req, res) {
-    var data_arr = [];
-    Object.keys(req.query).forEach(function (item) {
-        if (req.query[item]) {
-            data_arr.push(req.query[item]);
-        }
-        else {
-            data_arr.push(null);
-        }
-    })
-    pool.query('INSERT INTO asset_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data_arr, function (error, results, fields) {
-        if (error) throw error;
+    if ('loggedin' in req.session && req.session.loggedin && req.session.isAssetAdmin) {
+        var data_arr = [];
+        Object.keys(req.query).forEach(function (item) {
+            if (req.query[item]) {
+                data_arr.push(req.query[item]);
+            }
+            else {
+                data_arr.push(null);
+            }
+        })
+        pool.query('INSERT INTO asset_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data_arr, function (error, results, fields) {
+            if (error) throw error;
+            res.redirect('/');
+        });
+    }
+    else {
         res.redirect('/');
-    });
+    }
 }
 
 exports.delete_asset = function(req, res) {
+    if ('loggedin' in req.session && req.session.loggedin && req.session.isAssetAdmin) {
         var id = req.query.id;
         pool.query('DELETE FROM asset_list WHERE asset_id = ?', id, function (error, results, fields) {
             if (error) throw error;
-            res.render("form_display")
+            res.redirect('/');
         });
+    }
+    else {
+        res.redirect('/');
+    }
 }
