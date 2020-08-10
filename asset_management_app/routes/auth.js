@@ -25,22 +25,24 @@ exports.auth_form = function(req, res) {
 
 exports.auth_result = function(req, res) {
     req.session.usr = req.query.usr;
-    req.sessinon.pwd = req.query.pwd;
-    if (usr && pwd) {
-        pool.query('SELECT * FROM users WHERE username = ?', usr, function (error, results, fields) {
+    req.session.pwd = req.query.pwd;
+    if (req.query.usr && req.query.pwd) {
+        pool.query('SELECT * FROM users WHERE username = ?', req.query.usr, function (error, results, fields) {
             if (error) throw error;
-            if (results && pwd == results[0].pass) {
+            if (results && (req.query.pwd == results[0].pass)) {
+                req.session.loggedin = true;
                 req.session.isUserAdmin = results[0].user_admin;
                 req.session.isAssetAdmin = results[0].asset_admin;
                 req.session.firstname = results[0].firstname;
                 req.session.lastname = results[0].lastname;
                 var info = {
+                    loggedin: req.session.loggedin,
                     isUserAdmin: req.session.isUserAdmin,
                     isAssetAdmin: req.session.isAssetAdmin,
                     firstname: req.session.firstname,
                     lastname: req.session.lastname
                 };
-                res.render("form_display", info);    
+                res.redirect('/search'); 
             }
             else {
                 var info = {
@@ -59,6 +61,11 @@ exports.auth_result = function(req, res) {
 }
 
 exports.logout = function(req, res) {
-    req.session = null;                                       // programmatically deletes the cookie
-    res.render("auth_form");
+    req.session.destroy(err => {
+        if(err) {
+            res.redirect('/')
+        }
+        res.clearCookie('sid');
+        res.redirect('/auth')
+    })
 };

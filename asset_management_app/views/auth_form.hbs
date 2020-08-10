@@ -21,12 +21,21 @@
         <p>{{failmsg}}</p>
         <form id="signin_form" class="form" action="auth_result" method="get">
             <h2>Please enter your credentials below.</h2><br>            
-            <p>Username:</p>
-            <input id="username" class="textbox" type="text" name="usr" placeholder="Username">
-            <p>Password:</p>
-            <input id="password" class="textbox" type="text" name="pwd" placeholder="Password">
+            <p>Username: <input id="username" class="textbox" type="text" name="usr" placeholder="Username"></p>
+            <p>Password: <input type="password" id="password" class="textbox" type="text" name="pwd" placeholder="Password"></p>
+            <p><input type="checkbox" onclick="showPass()"> Show Password</p>
             <button type="submit" id="submit_button" class="button">Log In</button>
         </form>
     </div>
+    <script type="text/javascript">
+        function showPass() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        };
+    </script>
 </body>
 </html>

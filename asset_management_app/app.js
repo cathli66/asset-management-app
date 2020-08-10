@@ -19,7 +19,8 @@ var session = require('express-session');
 
 const {
     PORT = 8000,
-    SESS_LIFETIME = 1000 * 60 * 60 * 2
+    SESS_LIFETIME = 1000 * 60 * 60 * 2,
+    SESS_NAME = 'sid'
 } = process.env;
 
 app.set('trust proxy', 1);
@@ -29,7 +30,7 @@ app.set('view engine', 'hbs');
 app.use(express.static('static'));
 
 app.use(session({
-    name: 'sid',
+    name: SESS_NAME,
     resave: false,
     saveUninitialized: false,
     secret: 'are ya winning son?',

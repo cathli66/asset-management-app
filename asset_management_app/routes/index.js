@@ -15,4 +15,5 @@ exports.do_set = function(app) {
     app.get('/delete_asset', home.delete_asset);
     app.get('/auth', auth.auth_form);
     app.get('/auth_result', auth.auth_result);
+    app.get('/logout', auth.logout);
 };

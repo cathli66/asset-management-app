@@ -25,6 +25,7 @@
         <ul class="nav navbar-nav navbar-right">
             {{#if loggedin}}
                 <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
+                <li><form action="/logout"><button type="submit" class="font1" style="margin-right: 20px;">Logout</button></form></li>
             {{else}}
                 <li><span class="font1" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
             {{/if}}

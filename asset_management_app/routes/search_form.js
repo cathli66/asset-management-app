@@ -246,7 +246,9 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                     total_res: results_list.length,
                     num_pag: Math.ceil(results_list.length/size),
                     isAssetAdmin: req.session.isAssetAdmin,
-                    loggedin: req.session.loggedin
+                    loggedin: req.session.loggedin,
+                    firstname: req.session.firstname,
+                    lastname: req.session.lastname
                 };
                 res.render("search_result", info);
             });
