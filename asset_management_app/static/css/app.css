@@ -2,14 +2,16 @@ body {
     background-color: white;
 }
 
-.expand_button {
-    border-radius: 10%;
+.logout_button {
     border: 0;
+    padding: 0px;
+    color: rgb(87, 87, 87);
     background-color: transparent;
 }
 
-.expand_button:hover {
-    background-color: rgb(203, 215, 223);
+.logout_button:hover {
+    color: black;
+    text-decoration: underline;
 }
 
 .bold {

@@ -2,13 +2,14 @@
 // const hostname = '127.0.0.1';
 // const port = 3000
 
-var express = require('express');
-var app = express();
-var hbs = require('hbs');
-var request = require('request');
-var path = require('path');
-var routes = require('./routes');
-var session = require('express-session');
+const express = require('express');
+const app = express();
+const hbs = require('hbs');
+const request = require('request');
+const path = require('path');
+const routes = require('./routes');
+const session = require('express-session');
+const nodemailer = require('nodemailer');
 
 // const server = http.createServer((req, res) => {
 //     res.statusCode = 200;

@@ -22,12 +22,13 @@
             <li><img class="padding" src="logo_noBackground.png" alt="logo"></li>
             {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="padding: 10px;">
             {{#if loggedin}}
-                <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
-                <li><form action="/logout"><button type="submit" class="font1" style="margin-right: 20px;">Logout</button></form></li>
+                <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} </span></span></li>
+                <li><form action="/logout"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Logout</button></form></li>
+                <li><form action="/reset_pwd"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Change Password</button></form></li>
             {{else}}
-                <li><span class="font1" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
+                <li><form action="/auth" class="font1 logout_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
             {{/if}}
         </ul>
     </nav>

@@ -24,27 +24,13 @@
         </ul>
     </nav>
     <div class="form_container">
-        <form id="signin_form" class="form" action="auth_result" method="get">
-            <h2>Please enter your credentials below.</h2><br>            
+        <form id="username_form" class="form" action="reset_pwd" method="get">
+            <h2>Please enter your username below to reset your password.</h2><br>            
             <p>Username: <input id="username" class="textbox" type="text" name="usr" placeholder="Username"></p>
-            <p>Password: <input type="password" id="password" class="textbox" type="text" name="pwd" placeholder="Password"></p>
-            <p><input type="checkbox" onclick="showPass()"> Show Password</p>
             <p>{{failmsg}}</p>
-            <button type="submit" id="submit_button" class="button">Log In</button>
+            <button type="submit" id="submit_button" class="button">Continue</button>
         </form>
 
-        <a href="/forgot_pwd" class="font1" style="color: blue;">Forgot Password?</a>
-
     </div>
-    <script type="text/javascript">
-        function showPass() {
-            var x = document.getElementById("password");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        };
-    </script>
 </body>
 </html>

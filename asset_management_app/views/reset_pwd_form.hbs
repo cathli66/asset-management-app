@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Assets</title>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- 
+         IMPORTANT ITEM #1 - THIS MUST BE IN THE HEADER.
+         THIS IS THE CORE BOOTSTRAP CSS FROM A CDN
+     --> 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-default container-fluid" id="navbar">
+        <ul class="nav navbar-nav">
+            <li><img class="padding" src="logo_noBackground.png" alt="logo"></li>
+            {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="padding: 10px;">
+            {{#if loggedin}}
+                <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} </span></span></li>
+                <li><form action="/logout"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Logout</button></form></li>
+            {{else}}
+                <li><form action="/auth"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></button></form></li>
+            {{/if}}
+        </ul>
+    </nav>
+    {{#if loggedin}}
+        <div class="form_container">
+            <form class="form" action="reset_pwd_result" method="get">
+                <h2>Change Password</h2>
+                <p>Enter your new password for your SalubrisBio Asset Management account.</p><br>        
+                <p>Current Password <input input type="password" class="textbox" type="text" name="curr" required></p>
+                <p>New Password <input type="password" class="textbox" name="new" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></p>
+                <p>Confirm Password <input type="password" class="textbox" type="text" name="confirm" required></p>
+                <p>{{failmsg}}</p>
+                <button type="submit" id="submit_button" class="button">Change Password</button>
+            </form>
+        </div>
+    {{else}}
+        {{#if verified}}
+            <h2>Email {{email}} has been successfully verified.</h2>
+            <form class="form" action="reset_pwd_result" method="get">
+                <h2>Change Password</h2>
+                <p>Enter your new password for your SalubrisBio Asset Management account.</p><br>        
+                <p>New Password <input type="password" class="textbox" name="new" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></p>
+                <p>Confirm Password <input type="password" class="textbox" type="text" name="confirm" required></p>
+                <p>{{failmsg}}</p>
+                <button type="submit" id="submit_button" class="button">Change Password</button>
+            </form>
+        {{else}}
+            <h1>Reset Password</h1>
+            <h3>An identity verification link will be sent to {{hidden_email}}.</h3>
+            <form method="get" action="send_email">
+                <button type="submit" class="button">Send</button>
+            </form>
+            <p>{{successmsg}}</p>
+        {{/if}}
+    {{/if}}
+</body>
+</html>
