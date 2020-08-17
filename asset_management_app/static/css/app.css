@@ -2,16 +2,28 @@ body {
     background-color: white;
 }
 
-.logout_button {
+.signin_button {
     border: 0;
     padding: 0px;
-    color: rgb(87, 87, 87);
+    color: rgb(0, 0, 0);
+    background-color: transparent;
+}
+
+.signin_button:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.logout_button {
+    padding: 5px;
+    color: rgb(0, 0, 0);
     background-color: transparent;
 }
 
 .logout_button:hover {
-    color: black;
-    text-decoration: underline;
+    background-color: rgb(76, 126, 160);
+    border: 0;
+    border-radius: 5%;
 }
 
 .bold {
@@ -121,6 +133,11 @@ th {
     margin-bottom: 20px;
     font-size: 16px;
     padding: 15px;
+}
+
+.expand_button {
+    background-color: transparent;
+    border: none;
 }
 
 .pagination-container {

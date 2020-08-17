@@ -24,11 +24,17 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" style="padding: 10px;">
             {{#if loggedin}}
-                <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} </span></span></li>
-                <li><form action="/logout"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Logout</button></form></li>
-                <li><form action="/reset_pwd"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Change Password</button></form></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle font1" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="margin-right: 20px; color: black;">{{firstname}} {{lastname}} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><span class="glyphicon glyphicon-cog"></span> General Account Settings</a></li>
+                    <li><a href="/reset_pwd"><span class="glyphicon glyphicon-edit"></span> Change Password</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/logout" class="font1 logout_button" style="margin-right: 20px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
+                </ul>
+            </li>
             {{else}}
-                <li><form action="/auth" class="font1 logout_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
+                <li><form action="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
             {{/if}}
         </ul>
     </nav>
