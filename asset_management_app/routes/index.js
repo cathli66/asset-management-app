@@ -9,8 +9,10 @@ exports.do_set = function(app) {
     app.get('/advanced_search_result', search_form.advanced_search_result);
     app.get('/edit_form', home.edit_form);
     app.get('/edit_result', home.edit_result);
-    app.get('/add_new', home.add_new);
-    app.get('/add_new_result', home.add_new_result);
+    app.get('/new_asset', home.new_asset);
+    app.get('/new_asset_result', home.add_new_result);
+    app.get('/new_user', home.new_user);
+    app.get('/new_user_result', home.new_user_result);
     app.get('/page', search_form.page);
     app.get('/delete_asset', home.delete_asset);
     app.get('/auth', auth.auth_form);

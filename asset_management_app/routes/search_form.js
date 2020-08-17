@@ -210,6 +210,7 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                             total_res: results_list.length,
                             num_pag: Math.ceil(results_list.length/size),
                             isAssetAdmin: req.session.isAssetAdmin,
+                            isUserAdmin: req.session.isUserAdmin,
                             loggedin: req.session.loggedin,
                             firstname: req.session.firstname,
                             lastname: req.session.lastname
@@ -250,6 +251,7 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                     total_res: results_list.length,
                     num_pag: Math.ceil(results_list.length/size),
                     isAssetAdmin: req.session.isAssetAdmin,
+                    isUserAdmin: req.session.isUserAdmin,
                     loggedin: req.session.loggedin,
                     firstname: req.session.firstname,
                     lastname: req.session.lastname
@@ -275,7 +277,8 @@ exports.page = function change_page(req, res) {
             end: end,
             total_res: results_list.length,
             num_pag: Math.round(results_list.length/size),
-            isAssetAdmin: req.session.isAssetAdmin
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin
         };
         res.render("page_change", info);
 

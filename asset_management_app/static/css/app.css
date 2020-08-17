@@ -14,16 +14,18 @@ body {
     text-decoration: underline;
 }
 
-.logout_button {
-    padding: 5px;
-    color: rgb(0, 0, 0);
+.navbutton {
+    padding: 10px;
     background-color: transparent;
 }
 
-.logout_button:hover {
-    background-color: rgb(76, 126, 160);
+.navbutton:hover {
+    background-color: rgb(41, 41, 41);
     border: 0;
-    border-radius: 5%;
+}
+
+.dropdown-menu::selection {
+    background-color: transparent;
 }
 
 .bold {
@@ -80,6 +82,14 @@ th {
 #navbar {
     background-color: rgb(163, 206, 231);
     padding: 15px;
+}
+
+.navtext {
+    color: rgb(53, 53, 53);
+    font-size: 14px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20px;
 }
 
 .form_container {

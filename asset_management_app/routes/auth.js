@@ -25,33 +25,36 @@ exports.auth_form = function(req, res) {
 }
 
 exports.auth_result = function(req, res) {
-    req.session.usr = req.query.usr;
-    req.session.pwd = req.query.pwd;
     if (req.query.usr && req.query.pwd) {
         pool.query('SELECT * FROM users WHERE username = ?', req.query.usr, function (error, results, fields) {
             if (error) throw error;
-            if (results && (req.query.pwd == results[0].pass)) {
-                req.session.loggedin = true;
-                req.session.isUserAdmin = results[0].user_admin;
-                req.session.isAssetAdmin = results[0].asset_admin;
-                req.session.firstname = results[0].firstname;
-                req.session.lastname = results[0].lastname;
-                req.session.email = results[0].email;
-                var info = {
-                    loggedin: req.session.loggedin,
-                    isUserAdmin: req.session.isUserAdmin,
-                    isAssetAdmin: req.session.isAssetAdmin,
-                    firstname: req.session.firstname,
-                    lastname: req.session.lastname
-                };
+            bcrypt.compare(req.query.pwd, results[0].pass, function(err, res) {
+                if(res && results) {
+                    req.session.loggedin = true;
+                    req.session.usr = req.query.usr;
+                    req.session.hashedpwd = results[0].pass;
+                    console.log("hashed password: "+req.session.hashedpwd);
+                    req.session.isUserAdmin = results[0].user_admin;
+                    req.session.isAssetAdmin = results[0].asset_admin;
+                    req.session.firstname = results[0].firstname;
+                    req.session.lastname = results[0].lastname;
+                    req.session.email = results[0].email;
+                    var info = {
+                        loggedin: req.session.loggedin,
+                        isUserAdmin: req.session.isUserAdmin,
+                        isAssetAdmin: req.session.isAssetAdmin,
+                        firstname: req.session.firstname,
+                        lastname: req.session.lastname
+                    };
                 res.redirect('/search'); 
-            }
-            else {
-                var info = {
-                    failmsg : "Invalid login name or password."
-                };
-                res.render("auth_form", info);
-            }
+                } 
+                else {
+                    var info = {
+                        failmsg : "Invalid login name or password."
+                    };
+                    res.render("auth_form", info);
+                } 
+            });
         });
     }
     else {
@@ -111,22 +114,27 @@ exports.reset_pwd = function(req, res) {
 };
 
 exports.reset_pwd_result = function(req, res) {
-    if(!req.session.verified) {
-        if (req.session.pwd != req.query.curr) {
-            var info = {
-                loggedin: req.session.loggedin,
-                firstname: req.session.firstname,
-                lastname: req.session.lastname,
-                failmsg : "Invalid current password."
-            }
-            res.render("reset_pwd_form", info);
-        } 
+    if(!req.session.verified && req.session.loggedin) {
+        bcrypt.compare(req.query.curr, req.session.hashedpwd, function(err, res) {
+            if(!res) {
+                var info = {
+                    loggedin: req.session.loggedin,
+                    firstname: req.session.firstname,
+                    lastname: req.session.lastname,
+                    failmsg : "Invalid current password."
+                }
+                res.render("reset_pwd_form", info);
+            } 
+          });
     }
     if (req.query.new === req.query.confirm) {
-        pool.query('UPDATE users SET pass = ? WHERE username = ?', [req.query.new, req.session.usr], function (error, results, fields) {
-            if (error) throw error;
-            req.session.pwd = req.query.new;
-            res.redirect('/search'); 
+        bcrypt.hash(req.query.new, 10, function(err, hash) {
+            if (err) throw err;
+            pool.query('UPDATE users SET pass = ? WHERE username = ?', [hash, req.session.usr], function (error, results, fields) {
+                if (error) throw error;
+                req.session.hashedpwd = hash;
+                res.redirect('/search'); 
+            });
         });
     }
     else {

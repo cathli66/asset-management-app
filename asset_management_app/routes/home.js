@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var _ = require('underscore');
 const { all, random } = require('underscore');
 const { resolveNaptr } = require('dns');
+const bcrypt = require('bcrypt-pbkdf');
 
 var pool  = mysql.createPool({
     user            : 'root',
@@ -131,7 +132,7 @@ exports.edit_result = function(req, res) {
     }
 }
 
-exports.add_new = [get_all_ids, function(req, res) {
+exports.new_asset = [get_all_ids, function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {
         res.redirect('/auth');
     }
@@ -148,7 +149,7 @@ exports.add_new = [get_all_ids, function(req, res) {
     }
 }]
 
-exports.add_new_result = function(req, res) {
+exports.new_asset_result = function(req, res) {
     if ('loggedin' in req.session && req.session.loggedin && req.session.isAssetAdmin) {
         var data_arr = [];
         Object.keys(req.query).forEach(function (item) {
@@ -179,5 +180,43 @@ exports.delete_asset = function(req, res) {
     }
     else {
         res.redirect('/');
+    }
+}
+
+exports.new_user = function(req, res) {
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
+    }
+    else {
+        res.render("new_user_display", {authorized: req.session.isUserAdmin});    
+    }
+}
+
+exports.new_user_result = function(req, res) {
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
+    }
+    else {
+        if (password === req.query.confirm) {
+            bcrypt.hash(req.query.password, 10, function(err, hash) {
+                if (err) throw err;
+                var data_arr = [req.query.username, hash, req.query.first, req.query.last, req.query.email, req.query.isUserAdmin, req.query.isAssetAdmin];
+                pool.query('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)', data_arr, function (error, results, fields) {
+                    if (error) throw error;
+                    var info = {
+                        authorized: req.session.isUserAdmin,
+                        msg : "User "+req.query.first+" "+req.query.last+" has been successfully added."
+                    }
+                    res.redirect('/new_user_display', info); 
+                });
+            });
+        }
+        else {
+            var info = {
+                authorized: req.session.isUserAdmin,
+                msg : "Passwords do not match."
+            }
+            res.render("new_user_display", info);
+        }
     }
 }

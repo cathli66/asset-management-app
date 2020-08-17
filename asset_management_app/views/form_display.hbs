@@ -19,18 +19,26 @@
 <body>
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
-            <li><img class="padding" src="logo_noBackground.png" alt="logo"></li>
-            {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
+            <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
+            <li><a href="#" class="navtext">DASHBOARD</a></li>
+            <li><a href="/search" class="navtext">SEARCH ASSETS</a></li>
+            {{#if isAssetAdmin}}
+            <li><a href="/new_asset" class="navtext">ADD ASSETS</a></li>
+            <li><a href="#" class="navtext">UPLOAD</a></li>
+            {{/if}}
+            {{#if isUserAdmin}}
+            <li><a href="#" class="/new_user">ADD USER</a></li>
+            {{/if}}
         </ul>
         <ul class="nav navbar-nav navbar-right" style="padding: 10px;">
             {{#if loggedin}}
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle font1" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="margin-right: 20px; color: black;">{{firstname}} {{lastname}} <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#"><span class="glyphicon glyphicon-cog"></span> General Account Settings</a></li>
-                    <li><a href="/reset_pwd"><span class="glyphicon glyphicon-edit"></span> Change Password</a></li>
+                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 5px; margin-right: 20px; font-size: 20px; color: black;">{{firstname}} {{lastname}} <span class="caret"></span></a>
+                <ul class="dropdown-menu" style="background-color: rgb(53, 53, 53);">
+                    <li><a href="#" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-cog"></span> General Account Settings</a></li>
+                    <li><a href="/reset_pwd" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-edit"></span> Change Password</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="/logout" class="font1 logout_button" style="margin-right: 20px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
+                    <li><a href="/logout" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
                 </ul>
             </li>
             {{else}}
@@ -69,13 +77,13 @@
         </form>
     </div>
 
-    {{#if isAssetAdmin}}
+    {{!-- {{#if isAssetAdmin}}
     <div class="form_container" id="add_new">
         <button type="button" onclick="add_new()" class="button"><span class="bold font2">Add New Asset  </span><span class="glyphicon glyphicon-plus" id="add_new_icon" aria-hidden="true"></span></button>
         <span id="msg_wrapper"></span>
         <div id="new_asset_wrapper"></div>
     </div>
-    {{/if}}
+    {{/if}} --}}
     {{else}}
         <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
     {{/if}}
