@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var _ = require('underscore');
 const { all, random } = require('underscore');
 const { resolveNaptr } = require('dns');
-const bcrypt = require('bcrypt-pbkdf');
+const bcrypt = require('bcryptjs');
 
 var pool  = mysql.createPool({
     user            : 'root',
@@ -14,7 +14,16 @@ var pool  = mysql.createPool({
 });
 
 exports.redir_auth = function(req, res) {
+    bcrypt.hash('Asdf1234', 10, function(err, hash) {
+        console.log("got here");
+        if (err) throw err;
+        pool.query('INSERT INTO users VALUES ("cathli", ?, "Cathryn", "Li", "lifamily4@hotmail.com", true, true);', hash, function (error, results, fields) {
+            if (error) throw error;
+            console.log("user created "+results); 
+        });
+    }); 
     res.redirect('/auth');
+    
 }
 
 // exports.main_display = function(req, res){

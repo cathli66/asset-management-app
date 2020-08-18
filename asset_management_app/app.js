@@ -10,7 +10,7 @@ const path = require('path');
 const routes = require('./routes');
 const session = require('express-session');
 const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt-pbkdf');
+const bcrypt = require('bcryptjs');
 
 // const server = http.createServer((req, res) => {
 //     res.statusCode = 200;

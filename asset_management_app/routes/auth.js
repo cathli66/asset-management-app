@@ -1,6 +1,7 @@
 var request = require('request');
 var mysql = require('mysql');
 var nodemailer = require('nodemailer');
+var bcrypt = require('bcryptjs');
 
 var pool  = mysql.createPool({
     user            : 'root',
@@ -20,7 +21,7 @@ exports.auth_form = function(req, res) {
         var info = {
             loggedin: req.session.loggedin
         }
-        res.render('form_display', info)
+        res.render('form_display', info)   
     }
 }
 
@@ -28,33 +29,42 @@ exports.auth_result = function(req, res) {
     if (req.query.usr && req.query.pwd) {
         pool.query('SELECT * FROM users WHERE username = ?', req.query.usr, function (error, results, fields) {
             if (error) throw error;
-            bcrypt.compare(req.query.pwd, results[0].pass, function(err, res) {
-                if(res && results) {
-                    req.session.loggedin = true;
-                    req.session.usr = req.query.usr;
-                    req.session.hashedpwd = results[0].pass;
-                    console.log("hashed password: "+req.session.hashedpwd);
-                    req.session.isUserAdmin = results[0].user_admin;
-                    req.session.isAssetAdmin = results[0].asset_admin;
-                    req.session.firstname = results[0].firstname;
-                    req.session.lastname = results[0].lastname;
-                    req.session.email = results[0].email;
-                    var info = {
-                        loggedin: req.session.loggedin,
-                        isUserAdmin: req.session.isUserAdmin,
-                        isAssetAdmin: req.session.isAssetAdmin,
-                        firstname: req.session.firstname,
-                        lastname: req.session.lastname
-                    };
-                res.redirect('/search'); 
-                } 
-                else {
-                    var info = {
-                        failmsg : "Invalid login name or password."
-                    };
-                    res.render("auth_form", info);
-                } 
-            });
+            console.log(results);
+            if(results.length > 0) {
+                bcrypt.compare(req.query.pwd, results[0].pass, function(err, res) {
+                    if(res) {
+                        req.session.loggedin = true;
+                        req.session.usr = req.query.usr;
+                        req.session.hashedpwd = results[0].pass;
+                        console.log("hashed password: "+req.session.hashedpwd);
+                        req.session.isUserAdmin = results[0].user_admin;
+                        req.session.isAssetAdmin = results[0].asset_admin;
+                        req.session.firstname = results[0].firstname;
+                        req.session.lastname = results[0].lastname;
+                        req.session.email = results[0].email;
+                        var info = {
+                            loggedin: req.session.loggedin,
+                            isUserAdmin: req.session.isUserAdmin,
+                            isAssetAdmin: req.session.isAssetAdmin,
+                            firstname: req.session.firstname,
+                            lastname: req.session.lastname
+                        };
+                    res.redirect('/search'); 
+                    } 
+                    else {
+                        var info = {
+                            failmsg : "Invalid login name or password."
+                        };
+                        res.render("auth_form", info);
+                    } 
+                });
+            }
+            else {
+                var info = {
+                    failmsg : "Invalid login name or password."
+                };
+                res.render("auth_form", info);
+            } 
         });
     }
     else {
