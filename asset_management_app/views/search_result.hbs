@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assets Complete List</title>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- 
+         IMPORTANT ITEM #1 - THIS MUST BE IN THE HEADER.
+         THIS IS THE CORE BOOTSTRAP CSS FROM A CDN
+     --> 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body onload="pageButtons({{num_pag}})">
+    <nav class="navbar navbar-default container-fluid" id="navbar">
+        <ul class="nav navbar-nav">
+            <li><img class="padding" src="logo_noBackground.png" alt="logo"></li>
+            {{!-- <li><a onclick="toggle_advanced_search()">Advanced Search</a></li> --}}
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="padding: 10px;">
+            {{#if loggedin}}
+                <li><span class="font1" style="margin-right: 20px; color: black;">Signed in as {{firstname}} {{lastname}} <span class="glyphicon glyphicon-user" aria-hidden="true"></span></span></li>
+                <li><form action="/logout"><button type="submit" class="font1 logout_button" style="margin-right: 20px;">Logout</button></form></li>
+            {{else}}
+                <li><a href="/auth" class="font1 logout_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+            {{/if}}
+        </ul>
+        </nav>
+    {{#if loggedin}}
+    <div id="table&pagin">
+        <div class="container" id="main_table_container">
+            <table id="main_table" class="table table-hover">
+                <tr class="no_hover">
+                    <th>ID</th>
+                    <th>Asset Name</th>
+                    <th>Asset Type</th>
+                    <th>Purchase Date</th>
+                    <th></th>
+                </tr>
+                {{#each asset}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.type}}</td>
+                        <td>{{this.purchase_date}}</td>
+                        <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}})"><span class="caret"></span></button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="{{this.id}}_col1" style="display: none;">
+                            <div>
+                                <span class="bold">Purchase Price:</span> {{this.purchase_price}} <br>
+                                <span class="bold">Manufacturer:</span> {{this.manu}} <br>
+                                <span class="bold">Support Expiration:</span> {{this.s_expire}} <br>
+                                <span class="bold">Annual Support cost:</span> {{this.annual_s_cost}} <br>
+                                <span class="bold">Depreciation Schedule:</span> {{this.dep_sched}} <br>
+                                <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
+                                <span class="bold">Residual Value:</span> {{this.res_val}} <br>
+                                <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
+                            </div>
+                        </td>
+                        <td colspan="3" id="{{this.id}}_col2" style="display: none;">
+                            <div>
+                                <span class="bold">OS Type:</span> {{this.os_type}} <br>
+                                <span class="bold">OS Version:</span> {{this.os_ver}} <br>
+                                <span class="bold">Support Contact:</span> {{this.s_con}} <br>
+                                <span class="bold">Department:</span> {{this.dep}} <br>
+                                <span class="bold">Salution Name:</span> {{this.sal_name}} <br>
+                                <span class="bold">Serial Number:</span> {{this.serial}} <br>
+                                <span class="bold">Internal Contact:</span> {{this.internal_con}} <br>
+                                {{#if isAssetAdmin}}
+                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                                {{/if}}
+                            </div>
+                        </td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+        <div class="pagination-container">
+            <div id="pagination-wrapper"></div>
+        </div>
+    </div>
+    {{else}}
+        <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+    {{/if}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
+    <script type="text/javascript">
+        // FUNCTION FOR RESPONDING TO BUTTON PRESS
+        // $("#toggle_").click(function(){
+        //    $("#135").slideToggle();
+        // });
+        function expand(id) {
+            console.log(id);
+            $("#"+id+"_col1").slideToggle("fast");
+            $("#"+id+"_col2").slideToggle("fast");
+        }
+
+        var selected = 0;
+        function selectOption(op) {
+            selected = op;
+            document.getElementById('search_menu').innerHTML = document.getElementById('dropdown_option_'+op).innerHTML + " <span class='caret'>";
+        }
+
+        function edit_info(id) {
+            var ajax_params = {
+                'url' : "http://localhost:8000/edit_form",
+                'type' : "get",
+                'data' : {'id' : id},
+                'success' : onServerResponse2
+            }
+            $.ajax( ajax_params ); 
+        }
+        function onServerResponse2 (responseObj) {
+            document.getElementById('table&pagin').innerHTML = responseObj;
+        };
+
+        const size = 3;
+        function pageButtons(pages) {
+            if (pages > 1) {
+                var state = {
+                    'page': 1,
+                    'rows': size,
+                    'window': 5,
+                };
+                var wrapper = document.getElementById('pagination-wrapper');
+                wrapper.innerHTML = ``;
+                var maxLeft = (state.page - Math.floor(state.window / 2));
+                var maxRight = (state.page + Math.floor(state.window / 2));
+                if (maxLeft < 1) {
+                    maxLeft = 1;
+                    maxRight = state.window;
+                }
+                if (maxRight > pages) {
+                    maxLeft = pages - (state.window - 1);
+                    if (maxLeft < 1) {
+                        maxLeft = 1;
+                    }
+                    maxRight = pages;
+                }
+                for (var page = maxLeft; page <= maxRight; page++) {
+                    wrapper.innerHTML += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
+                }
+                if (state.page != 1) {
+                    wrapper.innerHTML = `<button value=${1} class="page btn btn-sm btn-info">&#171; First</button>` + wrapper.innerHTML;
+                }
+                if (state.page != pages) {
+                    wrapper.innerHTML += `<button value=${pages} class="page btn btn-sm btn-info">Last &#187;</button>`;
+                }
+                $('.page').click(function() {  
+                    state.page = Number($(this).val());
+                    var ajax_params = {
+                        'url' : "http://localhost:8000/page",
+                        'type' : "get",
+                        'data' : {'page' : state.page},
+                        'success' : onServerResponse4
+                    }
+                    $.ajax( ajax_params ); 
+                });
+            }
+        };
+        function onServerResponse4 (responseObj) {
+            document.getElementById('main_table_container').innerHTML = responseObj;
+        };
+
+        function delete_asset(id) {
+            if (confirm("Are you sure you want to delete this asset?")) {
+                console.log("function 1 called");
+                var ajax_params = {
+                    'url' : "http://localhost:8000/delete_asset",
+                    'type' : "get",
+                    'data' : {'id' : id},
+                    'success' : onServerResponseDelete
+                }
+                $.ajax( ajax_params ); 
+            }
+        }
+        function onServerResponseDelete (responseObj) {
+            document.body.innerHTML = responseObj;
+        };
+    </script>
+        
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+</body>
+</html>

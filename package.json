@@ -1,0 +1,35 @@
+{
+  "name": "VScode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cathli66/VScode.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "gypfile": true,
+  "bugs": {
+    "url": "https://github.com/cathli66/VScode/issues"
+  },
+  "homepage": "https://github.com/cathli66/VScode#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "csv-parser": "^2.3.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "hbs": "^4.1.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.11",
+    "package": "^1.0.1",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "underscore": "^1.10.2"
+  }
+}

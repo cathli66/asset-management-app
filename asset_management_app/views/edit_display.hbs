@@ -1,0 +1,118 @@
+{{#if authorized}}
+<div class="container" id="main_table_container">
+    {{#each asset}}
+    <button type="button" id="delete_button" onclick="delete_asset({{this.id}})" class="button">Delete Asset</button>
+    <div onload="setSelectedIndex('add_form', {{this.type}})">
+        <form id="edit_form" name="edit_form" action="edit_result" onsubmit="return validateEditForm()" method="get">
+            <div class="form-group">
+                <label>Asset ID</label>
+                <input readonly="readonly" class="form-control" name="id"  value="{{this.id}}">
+            </div>
+            <div class="form-group">
+                <label>Asset Name</label>
+                <input class="form-control" name="name" value="{{this.name}}" type="text" required>
+            </div>
+            <div class="form-group">
+                <label>Asset Type</label>
+                {{!-- value = this.type does not work, find another way --}}
+                <select class="form-control" type="text" name="type">
+                    <option value = "1">Computer Server</option>
+                    <option value = "2">Desktop</option>
+                    <option value = "3">Laptop</option>
+                    <option value = "4">Biotech Machine</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Purchase Date</label>
+                <input class="form-control" type="date" name="purchase_date" value="{{this.purchase_date}}">
+            </div>
+            <div class="form-group">
+                <label>Purchase Price without $ (USD)</label>
+                <input class="form-control" type="number" step="0.01" name="purchase_price" value="{{this.purchase_price}}">
+            </div>
+            <div class="form-group">
+                <label>Manufacturer</label>
+                <input class="form-control" type="text" name="manu" value="{{this.manu}}">
+            </div>
+            <div class="form-group">
+                <label>Support Expiration</label>
+                <input class="form-control" type="text" name="s_expire" value="{{this.s_expire}}">
+            </div>
+            <div class="form-group">
+                <label>Annual Support Cost</label>
+                <input class="form-control" type="number" step="0.01" name="annual_s_cost" value="{{this.annual_s_cost}}">
+            </div>
+            <div class="form-group">
+                <label>Depreciation Schedule</label>
+                <input class="form-control" type="text" name="depre_sched" value="{{this.depre_sched}}">
+            </div>
+            <div class="form-group">
+                <label>Depreciated Amount</label>
+                <input class="form-control" type="number" step="0.01" name="depre_amount" value="{{this.depre_amount}}">
+            </div>
+            <div class="form-group">
+                <label>Residual Value</label>
+                <input class="form-control" type="number" step="0.01" name="res_val" value="{{this.res_val}}">
+            </div>
+            <div class="form-group">
+                <label>Firmware Level</label>
+                <input class="form-control" type="text" name="firmware_lvl" value="{{this.firmware_lvl}}">
+            </div>
+            <div class="form-group">
+                <label>OS Type</label>
+                <input class="form-control" type="text" name="os_type" value="{{this.os_type}}">
+            </div>
+            <div class="form-group">
+                <label>OS Version</label>
+                <input class="form-control" type="text" name="os_ver" value="{{this.os_ver}}">
+            </div>
+            <div class="form-group">
+                <label>Support Contact</label>
+                <input class="form-control" type="text" name="s_con" value="{{this.s_con}}">
+            </div>
+            <div class="form-group">
+                <label>Department</label>
+                <input class="form-control" type="text" name="dep" value="{{this.dep}}">
+            </div>
+            <div class="form-group">
+                <label>Salution Name</label>
+                <input class="form-control" type="text" name="sal_name" value="{{this.sal_name}}">
+            </div>
+            <div class="form-group">
+                <label>Serial Number</label>
+                <input class="form-control" type="text" name="serial" value="{{this.serial}}">
+            </div>
+            <div class="form-group">
+                <label>Internal Contact</label>
+                <input class="form-control" type="text" name="internal_con" value="{{this.internal_con}}">
+            </div>
+            <button type="submit" class="button">Done</button> 
+        </form>
+    </div>
+    {{/each}}
+</div>
+{{else}}
+    <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+{{/if}}
+<script type="text/javascript">
+    function setSelectedIndex(id, i) {
+        console.log("function called, type_id = "+i);
+        s = document.getElementById(id);
+        s.options[i].selected = true;
+        return;
+    }
+    
+    function validateEditForm() {
+        var p_date = document.forms["edit_form"]["purchase_date"].value;
+        if (!(/^\d{4}-\d{2}-\d{2}$/).test(p_date)) {
+            alert("Please enter a valid date");
+            return false;
+        }
+        var p_price = document.forms["edit_form"]["purchase_price"].value;
+        if (!(/^\d*(\.\d{2})?$/).test(p_price)) {
+            alert("Please enter a valid price");
+            return false;
+        }
+    };
+
+</script>
