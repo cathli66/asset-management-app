@@ -1,0 +1,7 @@
+AssetID	AssetType	Manufactuer	Desc	AcquisitonType	PurchasePrice	ResidualValue	PurchaseDate	Ipaddress	Model	SerialNumber	ExpressServiceCode	SupportType	Exp
+1001	Server	Dell	ECM Database Server 	purchase	4000		April 30,2018	172.21.0.103	Dell R330	2ZBJCP2	6489259526	ProSupport Plus	1-May-21
+1002	Server	Dell	Fileserver	purchase	10000		August 16,2017	172.21.0.101	Dell R630	815WWK2	17484658130	Basic	17-Aug-23
+1003	Server	Dell	ECM VM Server	purchase	10000		August 16,2017	172.21.0.102	Dell R630	815VWK2	17484611474	Basic	17-Aug-23
+1004	Server	Dell	Backup Server	purchase	5000		June 17,2018	172.2.10.104	Dell R630	10PMRP2	2219835062	ProSupport Plus	18-Jun-21
+1005	Firewall	cisco	firewall	purchase	2500		12-Dec-2022	172.21.0.1	WAP581-A-K9	DNI2328A0KQ	312031498	standard	18-Aug-22
+1006	software	Oracle	Oracle Standard One	purchase	3000		April 30,2018	N/A	N/A	N/A	N/A	standard	April 30,2021

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Search Assets</title>
+    <title>Assets Complete List</title>
         <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -47,67 +47,27 @@
             {{/if}}
         </ul>
     </nav>
-    {{#if loggedin}}
-    <div class="form_container" id="advanced_search">
-        <form id="search_form" class="form" action="advanced_search_result" method="get">
-            <h2>Search Assets</h2><br>            
-            <select name = "asset_type" id="type_dropdown">
-                <option value = "0">Select Type</option>
-                <option value = "1">Computer Server</option>
-                <option value = "2">Desktop</option>
-                <option value = "3">Laptop</option>
-                <option value = "4">Biotech Machine</option>
-            </select>
-            <input id="name_textbox" class="textbox" type="text" name="name" placeholder="Asset Name">
-            <div class="row">
-                <div class="col-md-6"><span class="font1">Search By Manufacturer: </span><input type="text" class="textbox" name="manu" placeholder="Manufacturer"></div>
-                <div class="col-md-6"><span class="font1">Search By Department: </span><input type="text" class="textbox" name="dep" placeholder="Department"></div>
-            </div>
-            <p class="font1">Price Range:</p>
-            <div id="ranges">
-                <input type="radio" id="range0" name="price_range" value="0">
-                <label for="range0">Any Range</label><br>
-                <input type="radio" id="range1" name="price_range" value="1">
-                <label for="range1">$0 - $500</label><br>
-                <input type="radio" id="range2" name="price_range" value="2">
-                <label for="range2">$500 - $1000</label><br>
-                <input type="radio" id="range3" name="price_range" value="3">
-                <label for="range3">> $1000</label><br>
-            </div>
-            <button type="submit" id="submit_button" class="button"><span class="glyphicon glyphicon-search"></span> Search Assets</button>
-        </form>
-    </div>
+    <p>in development</p>
 
-    {{!-- {{#if isAssetAdmin}}
-    <div class="form_container" id="add_new">
-        <button type="button" onclick="add_new()" class="button"><span class="bold font2">Add New Asset  </span><span class="glyphicon glyphicon-plus" id="add_new_icon" aria-hidden="true"></span></button>
-        <span id="msg_wrapper"></span>
-        <div id="new_asset_wrapper"></div>
-    </div>
-    {{/if}} --}}
-    {{else}}
-        <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
-    {{/if}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript">
-        function add_new() {
-            if (document.getElementById('new_asset_wrapper').innerHTML != "") {
-                document.getElementById('new_asset_wrapper').innerHTML = "";
-            }
-            else {
+
+        function delete_user(username) {
+            if (confirm("Are you sure you want to delete this user?")) {
                 var ajax_params = {
-                    'url' : "/add_new",
+                    'url' : "http://localhost:8000/delete_user",
                     'type' : "get",
-                    'data' : {},
-                    'success' : onServerResponse3
+                    'data' : {'username' : username},
+                    'success' : onServerResponseDelete
                 }
                 $.ajax( ajax_params ); 
-                }
+            }
         }
-        function onServerResponse3 (responseObj) {
-            document.getElementById('new_asset_wrapper').innerHTML = responseObj;
+        function onServerResponseDelete (responseObj) {
+            document.body.innerHTML = responseObj;
         };
-    </script> 
+    </script>
+        
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 </body>

@@ -20,14 +20,14 @@
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
             <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
-            <li><a href="/dash" class="navtext">DASHBOARD</a></li>
+            <li><a href="#" class="navtext">DASHBOARD</a></li>
             <li><a href="/search" class="navtext">SEARCH ASSETS</a></li>
             {{#if isAssetAdmin}}
             <li><a href="/new_asset" class="navtext">ADD ASSETS</a></li>
             <li><a href="/upload_csv" class="navtext">UPLOAD</a></li>
             {{/if}}
             {{#if isUserAdmin}}
-            <li><a href="/display_users" class="navtext">VIEW USERS</a></li>
+            <li><a href="#" class="navtext">VIEW USERS</a></li>
             <li><a href="/new_user" class="navtext">ADD USER</a></li>
             {{/if}}
         </ul>
@@ -47,44 +47,16 @@
             {{/if}}
         </ul>
     </nav>
-    {{#if loggedin}}
-    <div class="form_container" id="advanced_search">
-        <form id="search_form" class="form" action="advanced_search_result" method="get">
-            <h2>Search Assets</h2><br>            
-            <select name = "asset_type" id="type_dropdown">
-                <option value = "0">Select Type</option>
-                <option value = "1">Computer Server</option>
-                <option value = "2">Desktop</option>
-                <option value = "3">Laptop</option>
-                <option value = "4">Biotech Machine</option>
-            </select>
-            <input id="name_textbox" class="textbox" type="text" name="name" placeholder="Asset Name">
-            <div class="row">
-                <div class="col-md-6"><span class="font1">Search By Manufacturer: </span><input type="text" class="textbox" name="manu" placeholder="Manufacturer"></div>
-                <div class="col-md-6"><span class="font1">Search By Department: </span><input type="text" class="textbox" name="dep" placeholder="Department"></div>
-            </div>
-            <p class="font1">Price Range:</p>
-            <div id="ranges">
-                <input type="radio" id="range0" name="price_range" value="0">
-                <label for="range0">Any Range</label><br>
-                <input type="radio" id="range1" name="price_range" value="1">
-                <label for="range1">$0 - $500</label><br>
-                <input type="radio" id="range2" name="price_range" value="2">
-                <label for="range2">$500 - $1000</label><br>
-                <input type="radio" id="range3" name="price_range" value="3">
-                <label for="range3">> $1000</label><br>
-            </div>
-            <button type="submit" id="submit_button" class="button"><span class="glyphicon glyphicon-search"></span> Search Assets</button>
+    {{#if isAssetAdmin}}
+    <div class="form_container">
+        <form id="upload_form" class="form" action="upload_csv_result" method="post" enctype="multipart/form-data">
+            <h2>Upload .csv file into asset database</h2><br>            
+            <input type="file" name="filetoupload"><br>
+            <button type="submit" id="submit_button" class="button">Upload</button>
         </form>
     </div>
+    <p>{{msg}}</p>
 
-    {{!-- {{#if isAssetAdmin}}
-    <div class="form_container" id="add_new">
-        <button type="button" onclick="add_new()" class="button"><span class="bold font2">Add New Asset  </span><span class="glyphicon glyphicon-plus" id="add_new_icon" aria-hidden="true"></span></button>
-        <span id="msg_wrapper"></span>
-        <div id="new_asset_wrapper"></div>
-    </div>
-    {{/if}} --}}
     {{else}}
         <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
     {{/if}}

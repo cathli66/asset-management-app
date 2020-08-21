@@ -1,0 +1,45 @@
+{{#if authorized}}
+    <div class="container" id="main_table_container">
+        <h1>Edit User</h1>
+        <form class="form" action="edit_user_result" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input readonly="readonly" class="form-control" type="text" name="username" value="{{username}}" required>
+            </div>
+            <div class="form-group">
+                <label>Firstname</label>
+                <input class="form-control" type="text" name="first" value="{{firstname}}" required>
+            </div>
+            <div class="form-group">
+                <label>Lastname</label>
+                <input class="form-control" type="text" name="last" value="{{lastname}}" required>
+            </div>
+            <div class="form-group">
+                <label>Enter User's Email</label>
+                <input class="form-control" type="text" name="email" value="{{email}}" required>
+            </div>
+            <div class="checkbox">
+                <label>
+                {{#if asset_admin}}
+                    <input type="checkbox" name="isAssetAdmin" value="1" checked>Asset Admin
+                {{else}}
+                    <input type="checkbox" name="isAssetAdmin" value="1">Asset Admin
+                {{/if}}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                {{#if user_admin}}
+                    <input type="checkbox" name="isUserAdmin" value="1" checked>User Admin
+                {{else}}
+                    <input type="checkbox" name="isUserAdmin" value="1">User Admin
+                {{/if}}
+                </label>
+            </div>
+            <p>{{msg}}</p>
+            <button type="submit" class="button">Done</button>
+        </form>
+    </div>
+{{else}}
+    <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+{{/if}}

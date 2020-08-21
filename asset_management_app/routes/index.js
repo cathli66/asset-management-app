@@ -2,6 +2,7 @@ var search_form = require('./search_form.js'); // search assets and display resu
 var home = require('./home.js'); // edit/add asset and user tables
 var auth = require('./auth.js'); // login, logout, reset pwd, email verification
 var csv = require('./csv.js'); // upload/download asset data from/as csv file
+var dash = require('./dashboard.js') // summarize/report totals, displays info in dashboard
 
 exports.do_set = function(app) {
     app.get('/', home.redir_auth);
@@ -23,4 +24,11 @@ exports.do_set = function(app) {
     app.get('/forgot_pwd', auth.forgot_pwd);
     app.get('/send_email', auth.send_email);
     app.get('/verify', auth.verify_email);
+    app.get('/upload_csv', csv.upload_csv);
+    app.post('/upload_csv_result', csv.upload_csv_result);
+    app.get('/display_users', home.display_users);
+    app.get('/edit_user_form', home.edit_user);
+    app.post('/edit_user_result', home.edit_user_result);
+    app.get('/delete_user', home.delete_user);
+    app.get('/dash', dash.display);
 };

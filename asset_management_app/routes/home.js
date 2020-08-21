@@ -168,7 +168,7 @@ exports.new_asset_result = function(req, res) {
             else {
                 data_arr.push(null);
             }
-        })
+        });
         pool.query('INSERT INTO asset_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data_arr, function (error, results, fields) {
             if (error) throw error;
             res.redirect('/');
@@ -243,5 +243,83 @@ exports.new_user_result = function(req, res) {
             }
             res.render("new_user_display", info);
         }
+    }
+}
+
+exports.display_users = function(req, res) {
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
+    }
+    else {
+        results_list = [];
+        pool.query('SELECT * FROM users', function (error, results, fields) {
+            if (error) throw error;
+            for (i = 0; i < results.length; i++) {
+                results_list.push({username: results[i].username, firstname: results[i].firstname, lastname: results[i].lastname,
+                                email: results[i].email, user_admin: results[i].user_admin, asset_admin: results[i].asset_admin});
+            }
+            var info = {
+                users: results_list,
+                isAssetAdmin: req.session.isAssetAdmin,
+                isUserAdmin: req.session.isUserAdmin,
+                loggedin: req.session.loggedin,
+                firstname: req.session.firstname,
+                lastname: req.session.lastname
+            };
+            res.render("user_display", info);
+        });
+    }
+}
+
+exports.edit_user = function(req, res) {
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
+    }
+    else {
+        var username = req.query.username;
+        pool.query('SELECT * FROM users WHERE username = ?', username, function (error, results, fields) {
+            if (error) throw error;
+            var info = {
+                authorized: req.session.isUserAdmin,
+                username: results[0].username, 
+                firstname: results[0].firstname, 
+                lastname: results[0].lastname,
+                email: results[0].email, 
+                user_admin: results[0].user_admin, 
+                asset_admin: results[0].asset_admin
+            };
+            res.render("edit_user_display", info);
+        });
+    } 
+}
+
+exports.edit_user_result = function(req, res) {
+    if ('loggedin' in req.session && req.session.loggedin && req.session.isUserAdmin) {
+        var uadmin = 0;
+        var aadmin = 0;
+        if (req.body.isUserAdmin == 1) uadmin = 1;
+        if (req.body.isAssetAdmin == 1) aadmin = 1;
+        var data_arr = [req.body.first, req.body.last, req.body.email, uadmin, aadmin, req.body.username];
+        var query_str = 'UPDATE users SET firstname = ?, lastname = ?, email = ?, user_admin = ?, asset_admin = ? WHERE username = ?';
+        pool.query(query_str, data_arr, function (error, results, fields) {
+            if (error) throw error;
+            res.redirect('/display_users');
+        });
+    }
+    else {
+        res.redirect('/auth');
+    }
+}
+
+exports.delete_user = function(req, res) {
+    if ('loggedin' in req.session && req.session.loggedin && req.session.isUserAdmin) {
+        var username = req.query.username;
+        pool.query('DELETE FROM users WHERE username = ?', username, function (error, results, fields) {
+            if (error) throw error;
+            res.redirect('/display_users');
+        });
+    }
+    else {
+        res.redirect('/auth');
     }
 }
