@@ -180,23 +180,10 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
             results_list = [];
             for (n = 0; n < id_list.length; n++) {
                 id = id_list[n]
-                pool.query('SELECT * FROM asset_management.asset_list WHERE asset_id = ?', id, function (error, results, fields) {
+                pool.query('SELECT * FROM asset_list JOIN asset_type ON asset_list.type_id = asset_type.id WHERE asset_id = ?', id, function (error, results, fields) {
                     if (error) throw error;
                     for (i = 0; i < results.length; i++) {
-                        var type_id = results[i].type_id;
-                        if (type_id == 1) {  // better solution is to pool.query and join the asset and type tables using asynchronous functions but not sure how
-                            asset_type = "Computer Server";
-                        }
-                        else if (type_id == 2) {
-                            asset_type = "Desktop";
-                        }
-                        else if (type_id == 3) {
-                            asset_type = "Laptop";
-                        }
-                        else {
-                            asset_type = "Biotech Machine";
-                        }
-                        results_list.push({id: results[i].asset_id, name: results[i].asset_name, type: asset_type, purchase_date: results[i].purchase_date, purchase_price: results[i].purchase_price.toFixed(2), 
+                        results_list.push({id: results[i].asset_id, name: results[i].asset_name, type: results[i].type_name, purchase_date: results[i].purchase_date, purchase_price: results[i].purchase_price.toFixed(2), 
                             manu: results[i].manufacturer, s_expire: results[i].support_expiration, annual_s_cost: results[i].annual_support_cost, dep_sched: results[i].depreciation_schedule, 
                             dep_amount: results[i].depreciated_amount, res_val: results[i].residual_value, firmware_lvl: results[i].firmware_level, os_type: results[i].os_type, os_ver: results[i].os_version,
                             s_con: results[i].support_contact, dep: results[i].department, sal_name: results[i].salution_name, serial: results[i].serial_number, internal_con: results[i].internal_contact});
@@ -222,23 +209,10 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
         }
         else {
             results_list = [];
-            pool.query('SELECT * FROM asset_management.asset_list', function (error, results, fields) {
+            pool.query('SELECT * FROM asset_list JOIN asset_type ON asset_list.type_id = asset_type.id', function (error, results, fields) {
                 if (error) throw error;
                 for (i = 0; i < results.length; i++) {
-                    var type_id = results[i].type_id;
-                    if (type_id == 1) {  // better solution is to pool.query and join the asset and type tables using asynchronous functions but not sure how
-                        asset_type = "Computer Server";
-                    }
-                    else if (type_id == 2) {
-                        asset_type = "Desktop";
-                    }
-                    else if (type_id == 3) {
-                        asset_type = "Laptop";
-                    }
-                    else {
-                        asset_type = "Biotech Machine";
-                    }
-                    results_list.push({id: results[i].asset_id, name: results[i].asset_name, type: asset_type, purchase_date: results[i].purchase_date, purchase_price: results[i].purchase_price.toFixed(2), 
+                    results_list.push({id: results[i].asset_id, name: results[i].asset_name, type: results[i].type_name, purchase_date: results[i].purchase_date, purchase_price: results[i].purchase_price.toFixed(2), 
                         manu: results[i].manufacturer, s_expire: results[i].support_expiration, annual_s_cost: results[i].annual_support_cost, dep_sched: results[i].depreciation_schedule, 
                         dep_amount: results[i].depreciated_amount, res_val: results[i].residual_value, firmware_lvl: results[i].firmware_level, os_type: results[i].os_type, os_ver: results[i].os_version,
                         s_con: results[i].support_contact, dep: results[i].department, sal_name: results[i].salution_name, serial: results[i].serial_number, internal_con: results[i].internal_contact});

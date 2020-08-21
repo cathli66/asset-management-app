@@ -10,5 +10,12 @@ var pool  = mysql.createPool({
 });
 
 exports.display = function(req, res) {
-    res.render('dash_display')
+    var info = {
+        isAssetAdmin: req.session.isAssetAdmin,
+        isUserAdmin: req.session.isUserAdmin,
+        loggedin: req.session.loggedin,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname
+    }
+    res.render('dash_display', info)
 }

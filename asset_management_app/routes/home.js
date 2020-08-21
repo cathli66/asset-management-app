@@ -110,7 +110,12 @@ exports.edit_form = function(req, res) {
             s_con: results[0].support_contact, dep: results[0].department, sal_name: results[0].salution_name, serial: results[0].serial_number, internal_con: results[0].internal_contact});
             var info = {
                 authorized: req.session.isAssetAdmin,
-                asset: s
+                asset: s,
+                isAssetAdmin: req.session.isAssetAdmin,
+                isUserAdmin: req.session.isUserAdmin,
+                loggedin: req.session.loggedin,
+                firstname: req.session.firstname,
+                lastname: req.session.lastname
             };
             res.render("edit_display", info);
         });
@@ -152,7 +157,12 @@ exports.new_asset = [get_all_ids, function(req, res) {
         }
         var info = {
             authorized: req.session.isAssetAdmin,
-            asset : [{id: new_id}]
+            asset : [{id: new_id}], 
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin,
+            loggedin: req.session.loggedin,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname
         };
         res.render("add_new_display", info);    
     }
@@ -197,7 +207,15 @@ exports.new_user = function(req, res) {
         res.redirect('/auth');
     }
     else {
-        res.render("new_user_display", {authorized: req.session.isUserAdmin});    
+        var info = {
+            authorized: req.session.isUserAdmin,
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin,
+            loggedin: req.session.loggedin,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname
+        }
+        res.render("new_user_display", info);    
     }
 }
 
@@ -222,6 +240,11 @@ exports.new_user_result = function(req, res) {
                     if (error) {
                         var info = {
                             authorized: req.session.isUserAdmin,
+                            isAssetAdmin: req.session.isAssetAdmin,
+                            isUserAdmin: req.session.isUserAdmin,
+                            loggedin: req.session.loggedin,
+                            firstname: req.session.firstname,
+                            lastname: req.session.lastname,
                             msg : "A user with this username has already been created. Please provide a unique username."
                         }
                         res.render("new_user_display", info);
@@ -229,6 +252,11 @@ exports.new_user_result = function(req, res) {
                     else {
                         var info = {
                             authorized: req.session.isUserAdmin,
+                            isAssetAdmin: req.session.isAssetAdmin,
+                            isUserAdmin: req.session.isUserAdmin,
+                            loggedin: req.session.loggedin,
+                            firstname: req.session.firstname,
+                            lastname: req.session.lastname,
                             msg : "User "+req.body.first+" "+req.body.last+" has been successfully added."
                         }
                         res.render('new_user_display', info); 
@@ -239,6 +267,11 @@ exports.new_user_result = function(req, res) {
         else {
             var info = {
                 authorized: req.session.isUserAdmin,
+                isAssetAdmin: req.session.isAssetAdmin,
+                isUserAdmin: req.session.isUserAdmin,
+                loggedin: req.session.loggedin,
+                firstname: req.session.firstname,
+                lastname: req.session.lastname,
                 msg : "Passwords do not match."
             }
             res.render("new_user_display", info);
