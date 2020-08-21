@@ -18,7 +18,14 @@ exports.upload_csv = function(req, res) {
         res.render("auth_form");
     } 
     else {
-        res.render('upload_form', {isAssetAdmin: req.session.isAssetAdmin});
+        var info = {
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin,
+            loggedin: req.session.loggedin,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname
+        }
+        res.render('upload_form', info);
     }
 }
 
@@ -44,26 +51,33 @@ exports.upload_csv_result = function(req, res) {
         var newpath = './static/csv/' + files.filetoupload.name;
         fs.rename(oldpath, newpath, function (err) {
             if (err) throw err;
-            res.render('upload_form', {msg: "File uploaded and moved!"});
         });
         fs.createReadStream(newpath)
         .pipe(csv({separator: '\t'}))
         .on('data', (row) => {
             console.log(row);
-            var fields = [];
+            var field = [];
             var data = [];
-            Object.keys(row).forEach(function (key) {
-                if (row[key]) {
-                    fields.push(key);
-                    data.push(row[key]);
-                }
-            });
-            var data_arr = fields.concat(data);
-            var str1 = "?, ".repeat(fields.length); 
-            var qstring = str1.slice(0, str1.length - 2)
-            pool.query('INSERT INTO asset_list ('+qstring+') VALUES ('+qstring+')', data_arr, function (error, results, fields) {
-                if (error) throw error;
-                res.redirect('/upload_csv');
+            pool.query('SELECT id FROM asset_type WHERE type_name = ?', row['asset_type'], function(error, results, fields) {
+                if (error) throw error
+                field.push('type_id');
+                data.push(results[0].id);
+                Object.keys(row).forEach(function (key) {
+                    if (row[key] && key != "asset_type") {
+                        field.push(key);
+                        var value = row[key];
+                        if(!isNaN(row[key])) value = +row[key];
+                        data.push(value);
+                    }
+                });
+                var str1 = "?, ".repeat(field.length); 
+                var qstring = str1.slice(0, str1.length - 2);
+                var fieldstr = field.join(", ");
+                var querystr = 'INSERT INTO asset_list ('+fieldstr+') VALUES ('+qstring+')';
+                pool.query(querystr, data, function (error, results, fields) {
+                    if (error) throw error;
+                    res.redirect('/upload_csv');
+                });
             });
         })
         .on('end', () => {
