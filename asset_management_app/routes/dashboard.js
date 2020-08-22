@@ -10,12 +10,17 @@ var pool  = mysql.createPool({
 });
 
 exports.display = function(req, res) {
-    var info = {
-        isAssetAdmin: req.session.isAssetAdmin,
-        isUserAdmin: req.session.isUserAdmin,
-        loggedin: req.session.loggedin,
-        firstname: req.session.firstname,
-        lastname: req.session.lastname
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
     }
-    res.render('dash_display', info)
+    else {
+        var info = {
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin,
+            loggedin: req.session.loggedin,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname
+        }
+        res.render('dash_display', info)    
+    }
 }

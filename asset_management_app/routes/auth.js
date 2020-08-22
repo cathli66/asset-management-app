@@ -29,7 +29,6 @@ exports.auth_result = function(req, res) {
     if (req.body.usr && req.body.pwd) {
         pool.query('SELECT * FROM users WHERE username = ?', req.body.usr, function (error, results, fields) {
             if (error) throw error;
-            console.log(results);
             if(results.length > 0) {
                 bcrypt.compare(req.body.pwd, results[0].pass, function(err, match) {
                     if(match) {
@@ -173,16 +172,17 @@ exports.send_email = function(req, res) {
     `;
 
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        service: "Hotmail",
-        host: 'smtp-mail.outlook.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: 'lifamily4@hotmail.com', // generated ethereal user
-            pass: 'Nightstorm606', // generated ethereal password
-        },
-    });
+    // let transporter = nodemailer.createTransport({
+    //     service: "Hotmail",
+    //     host: 'smtp-mail.outlook.com',
+    //     port: 587,
+    //     secure: false, // true for 465, false for other ports
+    //     auth: {
+    //         user: 'lifamily4@hotmail.com', // generated ethereal user
+    //         pass: 'Nightstorm606', // generated ethereal password
+    //     },
+    // });
+    let transporter = nodemailer.createTransport(require('./nodemailer_config.json'));
 
     // research how to put configuration in separate config file that main code can read
     

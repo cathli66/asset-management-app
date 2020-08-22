@@ -148,7 +148,7 @@ function get_dep(req, res, next) {
 }
 
 var results_list = [];
-const size = 3;
+const size = 10;
 exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_dep, get_all_ids, function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {
         res.redirect('/auth');

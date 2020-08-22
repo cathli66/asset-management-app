@@ -1,0 +1,10 @@
+{
+    "service": "Hotmail",
+    "host": "smtp-mail.outlook.com",
+    "port": 587,
+    "secure": false, 
+    "auth": {
+        "user": "lifamily4@hotmail.com",
+        "pass": "Nightstorm606"
+    }
+}

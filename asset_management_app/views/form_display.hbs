@@ -20,6 +20,7 @@
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
             <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
+            {{#if loggedin}}
             <li><a href="/dash" class="navtext">DASHBOARD</a></li>
             <li><a href="/search" class="navtext">SEARCH ASSETS</a></li>
             {{#if isAssetAdmin}}
@@ -32,7 +33,6 @@
             {{/if}}
         </ul>
         <ul class="nav navbar-nav navbar-right" style="padding: 10px;">
-            {{#if loggedin}}
             <li class="dropdown">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 5px; margin-right: 20px; font-size: 20px; color: black;">{{firstname}} {{lastname}} <span class="caret"></span></a>
                 <ul class="dropdown-menu" style="background-color: rgb(53, 53, 53);">
@@ -43,7 +43,10 @@
                 </ul>
             </li>
             {{else}}
-                <li><form action="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+            </ul>
             {{/if}}
         </ul>
     </nav>

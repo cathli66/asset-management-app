@@ -16,7 +16,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link href="css/app.css" rel="stylesheet">
 </head>
-<body>
+<body style="overflow-x: hidden;">
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
             <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
@@ -43,29 +43,85 @@
                 </ul>
             </li>
             {{else}}
-                <li><form action="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
+                <li><a href="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
             {{/if}}
         </ul>
     </nav>
-    <p>in development</p>
 
+    <div style="text-align: center; padding-right: 100px; padding-left: 100px;">
+        {{#if loggedin}}
+        <h1 style="padding: 20px;">Asset Management Dashboard</h1>
+        <h6 style="background-color: rgb(76, 126, 160); color: white; font-size: 13pt; padding: 5px;">OVERVIEW</h6>
+        <div class="row">
+            <div class="col-md-2"><h4 style="margin-top: 50px;">Assets Overdue</h4><h2 style="color: red; padding-bottom: 10px;">0</h2>
+                <h4>Assets Due Soon</h4><h2 style="padding-bottom: 10px;">0</h2>
+                <h4>Warranty Expiring Soon</h4><h2 style="padding-bottom: 10px;">0</h2></div>
+            <div class="col-md-5"><h5 class="mini-heading">Assets by Department</h5>
+                <div id="piechart" style="width: 600px; height: 350px;"></div></div>
+            <div class="col-md-5"><h5 class="mini-heading">Annual Support Cost by Type</h5>
+                <div id="columnchart_values" style="width: 550px; height: 350px; margin-right: 20px;"></div></div>
+        </div>
+        <h6 style="background-color: rgb(76, 126, 160); color: white; font-size: 13pt; padding: 5px;">REPORTS</h6>
+        <div style="text-align: left;">
+        <h3>Total Assets under Management: <span style="color: green; font-size: 25pt; font-weight: bold;">$2,094,023.24</span></h3> 
+        <h3>Total Residual Value: <span style="20pt; font-weight: bold;">$40,240.20</span></h3>
+        </div>
+        {{else}}
+        <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+        {{/if}}
+    </div>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawPieChart);
+        google.charts.setOnLoadCallback(drawColumnChart);
 
-        function delete_user(username) {
-            if (confirm("Are you sure you want to delete this user?")) {
-                var ajax_params = {
-                    'url' : "http://localhost:8000/delete_user",
-                    'type' : "get",
-                    'data' : {'username' : username},
-                    'success' : onServerResponseDelete
-                }
-                $.ajax( ajax_params ); 
-            }
+        function drawPieChart() {
+            var data = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['Work',     11],
+            ['Eat',      2],
+            ['Commute',  2],
+            ['Watch TV', 2],
+            ['Sleep',    7]
+            ]);
+            var options = {
+                chartArea:{left:50,top:20,width:'80%',height:'80%'},
+                legend: {position: 'right', textStyle: {fontSize: 12}}
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
         }
-        function onServerResponseDelete (responseObj) {
-            document.body.innerHTML = responseObj;
-        };
+
+        function drawColumnChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Visitations', { role: 'style' } ],
+                ['2010', 10, 'color: gray'],
+                ['2020', 14, 'color: #76A7FA'],
+                ['2030', 16, 'opacity: 0.2'],
+                ['2040', 22, 'fill-color: #C5A5CF'],
+                ['2050', 28, 'fill-color: #BC5679; fill-opacity: 0.2']
+            ]);
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                { calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation" },
+                2]);
+
+            var options = {
+                chartArea: {left:60,top:30,width:'75%',height:'75%'},
+                bar: {groupWidth: "70%"},
+                legend: { position: "none" },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+            chart.draw(view, options);
+        }
+
     </script>
         
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>

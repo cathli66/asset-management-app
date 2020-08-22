@@ -171,3 +171,12 @@ th {
     padding-top: 30px;
     margin-top: 20px;
 }
+
+.mini-heading {
+    background-color: rgb(223, 223, 223); 
+    color:rgb(107, 107, 107);
+    margin-left: 40px;
+    margin-right: 40px;
+    font-size: 11pt;
+    padding: 10px;
+}
