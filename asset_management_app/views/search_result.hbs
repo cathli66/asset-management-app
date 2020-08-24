@@ -107,6 +107,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript">
+
         // FUNCTION FOR RESPONDING TO BUTTON PRESS
         // $("#toggle_").click(function(){
         //    $("#135").slideToggle();
@@ -125,7 +126,7 @@
 
         function edit_info(id) {
             var ajax_params = {
-                'url' : "http://localhost:8000/edit_form",
+                'url' : "/edit_form",
                 'type' : "get",
                 'data' : {'id' : id},
                 'success' : onServerResponse2
@@ -171,7 +172,7 @@
                 $('.page').click(function() {  
                     state.page = Number($(this).val());
                     var ajax_params = {
-                        'url' : "http://localhost:8000/page",
+                        'url' : "/page",
                         'type' : "get",
                         'data' : {'page' : state.page},
                         'success' : onServerResponse4
@@ -188,7 +189,7 @@
             if (confirm("Are you sure you want to delete this asset?")) {
                 console.log("function 1 called");
                 var ajax_params = {
-                    'url' : "http://localhost:8000/delete_asset",
+                    'url' : "/delete_asset",
                     'type' : "get",
                     'data' : {'id' : id},
                     'success' : onServerResponseDelete

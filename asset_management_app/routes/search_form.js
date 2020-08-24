@@ -17,14 +17,22 @@ exports.form_display = function(req, res) {
         res.redirect('/');
     }
     else {
-        var info = {
-            loggedin: req.session.loggedin,
-            firstname: req.session.firstname,
-            lastname: req.session.lastname,
-            isAssetAdmin: req.session.isAssetAdmin,
-            isUserAdmin: req.session.isUserAdmin
-        }
-        res.render("form_display", info);
+        pool.query('SELECT * FROM asset_type', function(error, results, fields) {
+            if (error) throw error;
+            var type_arr = [];
+            for (i = 0; i < results.length; i++) {
+                type_arr.push({value: i+1, name: results[i].type_name});
+            }
+            var info = {
+                loggedin: req.session.loggedin,
+                firstname: req.session.firstname,
+                lastname: req.session.lastname,
+                isAssetAdmin: req.session.isAssetAdmin,
+                isUserAdmin: req.session.isUserAdmin,
+                type: type_arr
+            }
+            res.render("form_display", info);    
+        })
     }
 }
 
@@ -190,10 +198,10 @@ exports.advanced_search_result = [get_name, get_type, get_manu, get_price, get_d
                     }
                     if (results_list.length == id_list.length) {
                         var info = {
-                            asset: results_list.slice(0, 10),
+                            asset: results_list.slice(0, size),
                             page: 1,
                             start: 0,
-                            end: 10,
+                            end: size,
                             total_res: results_list.length,
                             num_pag: Math.ceil(results_list.length/size),
                             isAssetAdmin: req.session.isAssetAdmin,

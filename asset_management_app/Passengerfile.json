@@ -1,0 +1,9 @@
+{
+  "app_type": "node",
+  "startup_file": "app.js",
+  "environment": "development",
+  "port": 80,
+  "daemonize": true,
+  "user": "cli"
+}
+

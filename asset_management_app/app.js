@@ -19,15 +19,16 @@ const bodyParser = require('body-parser');
 //     res.end('Hello World')
 // });
 
+var passenger_config = require('./Passengerfile.json');
 
 const {
-    PORT = 8000,
+    PORT = 80,
     SESS_LIFETIME = 1000 * 60 * 60 * 2,
     SESS_NAME = 'sid'
 } = process.env;
 
 app.set('trust proxy', 1);
-app.set('port', process.env.PORT || 8000);
+app.set('port', process.env.PORT || 80);
 app.set('view engine', 'hbs');
 
 app.use(express.static('static'));

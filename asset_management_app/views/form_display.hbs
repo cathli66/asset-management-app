@@ -56,10 +56,9 @@
             <h2>Search Assets</h2><br>            
             <select name = "asset_type" id="type_dropdown">
                 <option value = "0">Select Type</option>
-                <option value = "1">Computer Server</option>
-                <option value = "2">Desktop</option>
-                <option value = "3">Laptop</option>
-                <option value = "4">Biotech Machine</option>
+                {{#each type}}
+                <option value = "{{this.value}}">{{this.name}}</option>
+                {{/each}}
             </select>
             <input id="name_textbox" class="textbox" type="text" name="name" placeholder="Asset Name">
             <div class="row">

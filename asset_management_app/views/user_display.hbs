@@ -92,9 +92,10 @@
         //    $("#135").slideToggle();
         // });
 
+
         function edit_info(username) {
             var ajax_params = {
-                'url' : "http://localhost:8000/edit_user_form",
+                'url' : "/edit_user_form",
                 'type' : "get",
                 'data' : {'username' : username},
                 'success' : onServerResponse2
@@ -109,7 +110,7 @@
         function delete_user(username) {
             if (confirm("Are you sure you want to delete this user?")) {
                 var ajax_params = {
-                    'url' : "http://localhost:8000/delete_user",
+                    'url' : "/delete_user",
                     'type' : "get",
                     'data' : {'username' : username},
                     'success' : onServerResponseDelete
