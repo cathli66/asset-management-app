@@ -4,13 +4,7 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const formidable = require('formidable');
 
-var pool  = mysql.createPool({
-    user            : 'root',
-    password        : 'Nightstorm66',
-    host            : 'localhost',
-    port            : 3306,
-    database        : 'asset_management'
-});
+var pool  = mysql.createPool(require('./mysqlpool_config.json'));
 
 exports.upload_csv = function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {

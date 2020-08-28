@@ -3,18 +3,12 @@ var mysql = require('mysql');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
 
-var pool  = mysql.createPool({
-    user            : 'root',
-    password        : 'Nightstorm66',
-    host            : 'localhost',
-    port            : 3306,
-    database        : 'asset_management'
-});
+var pool  = mysql.createPool(require('./mysqlpool_config.json'));
 
 exports.auth_form = function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {
         // if the token does not exist, this means that the user has not logged in
-        req.session.loggedin = false;
+        console.log(pool);
         res.render("auth_form");
     } 
     else {
@@ -242,4 +236,43 @@ exports.verify_email = function(req, res) {
     else {
         res.end("<h1>Request is from unknown source.</h1>");
     }
+}
+
+exports.account_info = function(req, res) {
+    if (!('loggedin' in req.session) || !req.session.loggedin) {
+        res.redirect('/auth');
+    }
+    else {
+        var info = {
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin,
+            loggedin: req.session.loggedin,
+            usr: req.session.usr,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname,
+            email: req.session.email
+        }
+        res.render('account_info', info);
+    }
+}
+
+exports.edit_account_result = function(req, res) {
+    var data_arr = [req.body.first, req.body.last, req.body.email, req.body.usr];
+    req.session.email = req.body.email;
+    req.session.firstname = req.body.first;
+    req.session.lastname = req.body.last;
+    pool.query('UPDATE users SET firstname = ?, lastname = ?, email = ? WHERE username = ?', data_arr, function (error, results, fields) {
+        if (error) throw error;
+        var info = {
+            isAssetAdmin: req.session.isAssetAdmin,
+            isUserAdmin: req.session.isUserAdmin,
+            loggedin: req.session.loggedin,
+            usr: req.session.usr,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname,
+            email: req.session.email,
+            msg: 'Account information successfully updated.'
+        }
+        res.render('account_info', info)
+    });
 }

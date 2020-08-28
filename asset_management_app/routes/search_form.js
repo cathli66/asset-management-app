@@ -4,13 +4,8 @@ var _ = require('underscore');
 const { all, random } = require('underscore');
 const { resolveNaptr } = require('dns');
 
-var pool  = mysql.createPool({
-    user            : 'root',
-    password        : 'Nightstorm66',
-    host            : 'localhost',
-    port            : 3306,
-    database        : 'asset_management'
-});
+var pool  = mysql.createPool(require('./mysqlpool_config.json'));
+
 
 exports.form_display = function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {

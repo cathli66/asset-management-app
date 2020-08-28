@@ -47,40 +47,37 @@
             {{/if}}
         </ul>
     </nav>
-    {{#if isAssetAdmin}}
+
+    {{#if loggedin}}
     <div class="form_container">
-        <form id="upload_form" class="form" action="upload_csv_result" method="post" enctype="multipart/form-data">
-            <h2>Upload .csv file into asset database</h2><br>            
-            <input type="file" name="filetoupload"><br>
-            <button type="submit" id="submit_button" class="button">Upload</button>
+        <form name="edit_account" id="new_asset" class="form" action="edit_account_result" method="post">
+            <h2>View and Edit Account Information</h2>
+            <div class="form-group">
+                <label>Username</label>
+                <input readonly="readonly" class="form-control" name="usr"  value="{{usr}}">
+            </div>
+            <div class="form-group">
+                <label>First Name</label>
+                <input class="form-control" type="text" name="first" value="{{firstname}}" required>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input class="form-control" type="text" name="last" value="{{lastname}}" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input class="form-control" type="text" name="email" value="{{email}}" required>
+            </div>
+            <button type="submit" class="button">Save</button>
+            <p>{{msg}}</p>
         </form>
     </div>
-    <p>{{msg}}</p>
-
     {{else}}
-        <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
+    <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>
     {{/if}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
-    <script type="text/javascript">
-        function add_new() {
-            if (document.getElementById('new_asset_wrapper').innerHTML != "") {
-                document.getElementById('new_asset_wrapper').innerHTML = "";
-            }
-            else {
-                var ajax_params = {
-                    'url' : "/add_new",
-                    'type' : "get",
-                    'data' : {},
-                    'success' : onServerResponse3
-                }
-                $.ajax( ajax_params ); 
-                }
-        }
-        function onServerResponse3 (responseObj) {
-            document.getElementById('new_asset_wrapper').innerHTML = responseObj;
-        };
-    </script> 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <script>
+
+    </script>
 </body>
 </html>

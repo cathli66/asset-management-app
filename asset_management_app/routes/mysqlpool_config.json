@@ -1,0 +1,7 @@
+{
+    "user"            : "assetmngr",
+    "password"        : "FudanFwuyong!1",
+    "host"            : "172.21.0.143",
+    "port"            : 3306,
+    "database"        : "asset_management"
+}

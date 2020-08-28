@@ -2,6 +2,7 @@
   "app_type": "node",
   "startup_file": "app.js",
   "environment": "development",
+  "address": "172.21.0.143",
   "port": 80,
   "daemonize": true,
   "user": "cli"

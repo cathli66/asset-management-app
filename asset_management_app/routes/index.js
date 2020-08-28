@@ -31,4 +31,6 @@ exports.do_set = function(app) {
     app.post('/edit_user_result', home.edit_user_result);
     app.get('/delete_user', home.delete_user);
     app.get('/dash', dash.display);
+    app.get('/account_info', auth.account_info);
+    app.post('/edit_account_result', auth.edit_account_result);
 };

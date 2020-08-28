@@ -36,7 +36,7 @@
             <li class="dropdown">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 5px; margin-right: 20px; font-size: 20px; color: black;">{{firstname}} {{lastname}} <span class="caret"></span></a>
                 <ul class="dropdown-menu" style="background-color: rgb(53, 53, 53);">
-                    <li><a href="#" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-cog"></span> General Account Settings</a></li>
+                    <li><a href="/account_info" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-cog"></span> General Account Settings</a></li>
                     <li><a href="/reset_pwd" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-edit"></span> Change Password</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="/logout" class="navbutton" style="color: white;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
@@ -49,9 +49,10 @@
     </nav>
 
     {{#if authorized}}
-        <h1>Add New Asset</h1>
         {{#each asset}}
+        <div class="form_container">
             <form name="add_form" id="new_asset" class="form" action="new_asset_result" method="get">
+                <h2>Add New Asset</h2>
                 <div class="form-group">
                     <label>Asset ID</label>
                     <input readonly="readonly" class="form-control" name="id"  value="{{this.id}}">
@@ -136,6 +137,7 @@
                 <p style="color:red;">Required fields are marked with *</p>
                 <button type="submit" class="button">Done</button>
             </form>
+        </div>
         {{/each}}
     {{else}}
         <p class='font1'>You are not authorized to view this material. Please sign in and try again.</p>

@@ -5,13 +5,7 @@ const { all, random } = require('underscore');
 const { resolveNaptr } = require('dns');
 const bcrypt = require('bcryptjs');
 
-var pool  = mysql.createPool({
-    user            : 'root',
-    password        : 'Nightstorm66',
-    host            : 'localhost',
-    port            : 3306,
-    database        : 'asset_management'
-});
+var pool  = mysql.createPool(require('./mysqlpool_config.json'));
 
 exports.redir_auth = function(req, res) {
     // bcrypt.hash('Asdf1234', 10, function(err, hash) {
@@ -20,6 +14,7 @@ exports.redir_auth = function(req, res) {
     //     pool.query('INSERT INTO users VALUES ("cathli", ?, "Cathryn", "Li", "lifamily4@hotmail.com", true, true);', hash, function (error, results, fields) {
     //         if (error) throw error;
     //         console.log("user created "+results[0]); 
+            
     //     });
     // }); 
     res.redirect('/auth');
