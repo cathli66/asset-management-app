@@ -33,4 +33,6 @@ exports.do_set = function(app) {
     app.get('/dash', dash.display);
     app.get('/account_info', auth.account_info);
     app.post('/edit_account_result', auth.edit_account_result);
+    app.get('/dueSoon_list', dash.dueSoon_list);
+    app.get('/overdue_list', dash.overdue_list);
 };

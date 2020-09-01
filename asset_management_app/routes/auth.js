@@ -8,14 +8,10 @@ var pool  = mysql.createPool(require('./mysqlpool_config.json'));
 exports.auth_form = function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {
         // if the token does not exist, this means that the user has not logged in
-        console.log(pool);
         res.render("auth_form");
     } 
     else {
-        var info = {
-            loggedin: req.session.loggedin
-        }
-        res.render('form_display', info)   
+        res.redirect('/search');
     }
 }
 

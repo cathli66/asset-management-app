@@ -90,19 +90,31 @@ function get_all_ids(req, res, next) {
     });
 }
 
-exports.edit_form = function(req, res) {
+function calcTypes(req, res, next) {
+    pool.query('SELECT * FROM asset_type', function (error, results, fields) {
+        res.locals.type_arr = [];
+        if (error) throw error;
+        for (i = 0; i < results.length; i++) {
+            res.locals.type_arr.push({value: i+1, name: results[i].type_name});
+            if (i == results.length - 1) {
+                next();
+            }
+        }
+    });
+}
+
+exports.edit_form = [calcTypes, function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {
         res.redirect('/auth');
     }
     else {
         var id = parseInt(req.query.id);
-        pool.query('SELECT * FROM asset_management.asset_list WHERE asset_id = ?', id, function (error, results, fields) {
+        pool.query('SELECT * FROM asset_list JOIN asset_type ON asset_list.type_id = asset_type.id WHERE asset_id = ?', id, function (error, results, fields) {
             if (error) throw error;
-            var s = [];
-            s.push({id: results[0].asset_id, name: results[0].asset_name, type: results[0].type_id, purchase_date: results[0].purchase_date, purchase_price: results[0].purchase_price.toFixed(2), 
+            var s = {id: results[0].asset_id, name: results[0].asset_name, type_id: results[0].type_id, type_name: results[0].type_name, purchase_date: results[0].purchase_date, purchase_price: results[0].purchase_price.toFixed(2), 
             manu: results[0].manufacturer, s_expire: results[0].support_expiration, annual_s_cost: results[0].annual_support_cost, dep_sched: results[0].depreciation_schedule, 
             dep_amount: results[0].depreciated_amount, res_val: results[0].residual_value, firmware_lvl: results[0].firmware_level, os_type: results[0].os_type, os_ver: results[0].os_version,
-            s_con: results[0].support_contact, dep: results[0].department, sal_name: results[0].salution_name, serial: results[0].serial_number, internal_con: results[0].internal_contact});
+            s_con: results[0].support_contact, dep: results[0].department, sal_name: results[0].salution_name, serial: results[0].serial_number, internal_con: results[0].internal_contact};
             var info = {
                 authorized: req.session.isAssetAdmin,
                 asset: s,
@@ -110,12 +122,13 @@ exports.edit_form = function(req, res) {
                 isUserAdmin: req.session.isUserAdmin,
                 loggedin: req.session.loggedin,
                 firstname: req.session.firstname,
-                lastname: req.session.lastname
+                lastname: req.session.lastname,
+                type: res.locals.type_arr
             };
             res.render("edit_display", info);
         });
     } 
-}
+}];
 
 exports.edit_result = function(req, res) {
     if ('loggedin' in req.session && req.session.loggedin && req.session.isAssetAdmin) {

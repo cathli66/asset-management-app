@@ -43,7 +43,7 @@
                 </ul>
             </li>
             {{else}}
-                <li><form action="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
+            <li><a href="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
             {{/if}}
         </ul>
     </nav>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="form-group">
                     <label>Support Expiration</label>
-                    <input class="form-control" type="text" name="s_expire">
+                    <input class="form-control" type="date" name="s_expire">
                 </div>
                 <div class="form-group">
                     <label>Annual Support Cost</label>

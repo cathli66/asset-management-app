@@ -32,13 +32,13 @@ CREATE TABLE asset_list (
     asset_name VARCHAR(50) NOT NULL,
 	type_id INT NOT NULL,
     purchase_date VARCHAR(10) NOT NULL,
-    purchase_price FLOAT NOT NULL,
+    purchase_price DECIMAL(10,2) NOT NULL,
     manufacturer VARCHAR(50),
     support_expiration VARCHAR(10),
-    annual_support_cost FLOAT,
+    annual_support_cost DECIMAL(10,2),
     depreciation_schedule VARCHAR(50),
-    depreciated_amount FLOAT,
-    residual_value FLOAT,
+    depreciated_amount DECIMAL(10,2),
+    residual_value DECIMAL(10,2),
     firmware_level VARCHAR(50),
     os_type VARCHAR(50),
     os_version VARCHAR(50),
@@ -49,15 +49,15 @@ CREATE TABLE asset_list (
     internal_contact VARCHAR(50),
     PRIMARY KEY (asset_id)
     );
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (135, "Server-1", 1, "2006-06-02", 250.00);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (365, "Server-2", 1, "2017-12-15", 299.99);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (145, "2016 Linux Desktop", 2, "2017-01-16", 700.00);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (987, "2003 Windows Desktop", 2, "2003-11-08", 450.00);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (246, "2019 MacBook Pro 13-inch", 3, "2019-12-25", 1099.99);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (864, "2013 MacBook Air 11-inch", 3, "2014-09-20", 699.99);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (152, "Pilot High Pressure Homogenizer", 4, "2018-03-03", 3999.99);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (136, "Bioreactor System", 4, "2007-04-18", 750.25);
-INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price) VALUES (863, "Compact H2O2 Disinfection System", 4, "2017-02-21", 2099.99);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (135, "Server-1", 1, "2006-06-02", 250.00, "2010-06-02", 20.99);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (365, "Server-2", 1, "2017-12-15", 299.99, "2020-12-15", 200);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (145, "2016 Linux Desktop", 2, "2017-01-16", 700.00, "2019-01-16", 499.99);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (987, "2003 Windows Desktop", 2, "2003-11-08", 450.00, "2013-11-08", 30.25);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (246, "2019 MacBook Pro 13-inch", 3, "2019-12-25", 1099.99, "2022-12-15", 500.50);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (864, "2013 MacBook Air 11-inch", 3, "2014-09-20", 699.99);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (152, "Pilot High Pressure Homogenizer", 4, "2018-03-03", 3999.99, "2020-03-03", 59.99);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (136, "Bioreactor System", 4, "2007-04-18", 750.25);
+INSERT INTO asset_list(asset_id, asset_name, type_id, purchase_date, purchase_price, support_expiration, annual_support_cost) VALUES (863, "Compact H2O2 Disinfection System", 4, "2017-02-21", 2099.99, "2020-02-21", 500);
 
 
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Nightstorm66';

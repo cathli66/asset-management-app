@@ -24,7 +24,9 @@
                         <span class="bold">Depreciation Schedule:</span> {{this.dep_sched}} <br>
                         <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
                         <span class="bold">Residual Value:</span> {{this.res_val}} <br>
+                        {{!-- {{#if isAssetAdmin}} --}}
                         <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                        {{!-- {{/if}} --}}
                     </div>
                 </td>
                 <td colspan="3" id="{{this.id}}_col2" style="display: none;">

@@ -43,7 +43,7 @@
                 </ul>
             </li>
             {{else}}
-                <li><form action="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></form></li>
+                <li><a href="/auth" class="font1 signin_button" style="margin-right: 20px;">Sign In <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
             {{/if}}
         </ul>
     </nav>
@@ -72,11 +72,14 @@
                                 <span class="bold">Purchase Price:</span> {{this.purchase_price}} <br>
                                 <span class="bold">Manufacturer:</span> {{this.manu}} <br>
                                 <span class="bold">Support Expiration:</span> {{this.s_expire}} <br>
-                                <span class="bold">Annual Support cost:</span> {{this.annual_s_cost}} <br>
+                                <span class="bold">Annual Support Cost:</span> {{this.annual_s_cost}} <br>
                                 <span class="bold">Depreciation Schedule:</span> {{this.dep_sched}} <br>
                                 <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
                                 <span class="bold">Residual Value:</span> {{this.res_val}} <br>
                                 <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
+                                {{!-- {{#if isAssetAdmin}} --}}
+                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                                {{!-- {{/if}} --}}
                             </div>
                         </td>
                         <td colspan="3" id="{{this.id}}_col2" style="display: none;">
@@ -88,9 +91,6 @@
                                 <span class="bold">Salution Name:</span> {{this.sal_name}} <br>
                                 <span class="bold">Serial Number:</span> {{this.serial}} <br>
                                 <span class="bold">Internal Contact:</span> {{this.internal_con}} <br>
-                                {{#if isAssetAdmin}}
-                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
-                                {{/if}}
                             </div>
                         </td>
                     </tr>
@@ -139,7 +139,7 @@
 
         const size = 10;
         function pageButtons(pages) {
-            if (pages > 1) {
+            if (pages && pages > 1) {
                 var state = {
                     'page': 1,
                     'rows': size,
