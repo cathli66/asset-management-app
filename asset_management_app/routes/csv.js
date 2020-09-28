@@ -9,7 +9,7 @@ var pool  = mysql.createPool(require('./mysqlpool_config.json'));
 exports.upload_csv = function(req, res) {
     if (!('loggedin' in req.session) || !req.session.loggedin) {
         // if the token does not exist, this means that the user has not logged in
-        res.render("auth_form");
+        res.redirect("/auth");
     } 
     else {
         var info = {
@@ -57,7 +57,7 @@ exports.upload_csv_result = function(req, res) {
                 field.push('type_id');
                 data.push(results[0].id);
                 Object.keys(row).forEach(function (key) {
-                    if (row[key] && key != "asset_type") {
+                    if (row[key] && key != "asset_type" && key != "asset_id") {
                         field.push(key);
                         var value = row[key];
                         if(!isNaN(row[key])) value = +row[key];
@@ -70,7 +70,16 @@ exports.upload_csv_result = function(req, res) {
                 var querystr = 'INSERT INTO asset_list ('+fieldstr+') VALUES ('+qstring+')';
                 pool.query(querystr, data, function (error, results, fields) {
                     if (error) throw error;
-                    res.redirect('/upload_csv');
+                    // res.redirect('/upload_csv');
+                    var info = {
+                        isAssetAdmin: req.session.isAssetAdmin,
+                        isUserAdmin: req.session.isUserAdmin,
+                        loggedin: req.session.loggedin,
+                        firstname: req.session.firstname,
+                        lastname: req.session.lastname,
+                        msg: 'Data from .csv file successfully uploaded.'
+                    }
+                    res.render('upload_form', info);
                 });
             });
         })

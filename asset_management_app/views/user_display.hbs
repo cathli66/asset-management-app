@@ -17,6 +17,16 @@
     <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
+    {{#if loggedin}}
+    <div id="timeout" class="myModal">
+        <div class="modal-content">
+            <h1 style="margin-top: 5px;">Session About To Timeout</h1>
+            <p>You will be automatically logged out in 1 minute.<br>
+            To remain logged in, please click continue.</p>
+            <span id="btnStayLoggedIn" class="button">Continue</span>
+        </div>
+    </div>
+    {{/if}}
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
             <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
@@ -86,7 +96,11 @@
     {{/if}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
+    <script type="text/javascript" src="./js/timeout.js"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
+            setupTimers();
+        });
         // FUNCTION FOR RESPONDING TO BUTTON PRESS
         // $("#toggle_").click(function(){
         //    $("#135").slideToggle();
