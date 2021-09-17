@@ -29,7 +29,7 @@
     {{/if}}
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
-            <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
+            <li><img src="logo_noBackground.png" class="logo" alt="logo"></li>
             <li><a href="/dash" class="navtext">DASHBOARD</a></li>
             <li><a href="/search" class="navtext">SEARCH ASSETS</a></li>
             {{#if isAssetAdmin}}
@@ -74,10 +74,10 @@
                         <td>{{this.name}}</td>
                         <td>{{this.type}}</td>
                         <td>{{this.purchase_date}}</td>
-                        <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}})"><span class="caret"></span></button></td>
+                        <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}}, '{{this.dep_sched}}', {{this.dep_amount}}, '{{this.purchase_date}}', {{this.purchase_price}})"><span class="caret"></span></button></td>
                     </tr>
                     <tr>
-                        <td colspan="2" id="{{this.id}}_col1" style="display: none;">
+                        <td colspan="2" id="{{this.id}}_col1" style="display: none; padding-left: 100px">
                             <div>
                                 <span class="bold">Purchase Price:</span> {{this.purchase_price}} <br>
                                 <span class="bold">Manufacturer:</span> {{this.manu}} <br>
@@ -87,13 +87,6 @@
                                 <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
                                 <span class="bold">Residual Value:</span> {{this.res_val}} <br>
                                 <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
-                                {{!-- {{#if isAssetAdmin}} --}}
-                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
-                                {{!-- {{/if}} --}}
-                            </div>
-                        </td>
-                        <td colspan="3" id="{{this.id}}_col2" style="display: none;">
-                            <div>
                                 <span class="bold">OS Type:</span> {{this.os_type}} <br>
                                 <span class="bold">OS Version:</span> {{this.os_ver}} <br>
                                 <span class="bold">Support Contact:</span> {{this.s_con}} <br>
@@ -101,6 +94,14 @@
                                 <span class="bold">Salution Name:</span> {{this.sal_name}} <br>
                                 <span class="bold">Serial Number:</span> {{this.serial}} <br>
                                 <span class="bold">Internal Contact:</span> {{this.internal_con}} <br>
+                                {{!-- {{#if isAssetAdmin}} --}}
+                                <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                                {{!-- {{/if}} --}}
+                            </div>
+                        </td>
+                        <td colspan="3" id="{{this.id}}_col2" style="display: none;">
+                            <div>
+                                <span><div id="dep_chart{{this.id}}" style="width: 650px; height: 350px;"></div></span>
                             </div>
                         </td>
                     </tr>
@@ -117,17 +118,22 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" async></script>
     <script type="text/javascript" src="./js/timeout.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             setupTimers();
         });
 
+        // google.charts.setOnLoadCallback(drawDepreciationChart);
+
         // FUNCTION FOR RESPONDING TO BUTTON PRESS
         // $("#toggle_").click(function(){
         //    $("#135").slideToggle();
         // });
-        function expand(id) {
-            console.log(id);
+        google.charts.load('current', {'packages':['corechart']});
+        function expand(id, dep_sched, dep_amount, date, price) {
+            // console.log(id);
+            google.charts.setOnLoadCallback(drawDepreciationChart(id, dep_sched, dep_amount, date, price));
             $("#"+id+"_col1").slideToggle("fast");
             $("#"+id+"_col2").slideToggle("fast");
         }
@@ -150,6 +156,60 @@
         function onServerResponse2 (responseObj) {
             document.getElementById('table&pagin').innerHTML = responseObj;
         };
+
+        function drawDepreciationChart(id, dep_sched, dep_amount, purchase_date, purchase_price) {
+            data_array = [ ['Year', 'Asset Value'] ]
+            var currDate = new Date();
+            var assetDate = new Date(purchase_date);
+            console.log('curr year: '+currDate.getFullYear())
+            console.log('asset purchase year: '+assetDate.getFullYear())
+            for(i = assetDate.getFullYear(); i <= currDate.getFullYear(); i++) {
+                if(dep_sched === "Straight-line") //dep_amount is dollar value (40.99, 23.00)
+                    data_array.push([i.toString(), Math.round(purchase_price-(i-assetDate.getFullYear())*dep_amount) ]);
+                else if(dep_sched === "Double declining balance") //dep_amount is decimal (0.25, 0.3)
+                    data_array.push([i.toString(), Math.round(purchase_price*((1-dep_amount)**(i-assetDate.getFullYear()))) ]);
+                else if(dep_sched === "Units of production") //skip for now?
+                    data_array.push([i.toString(), ]);
+                else if(dep_sched === "Sum of years digits") { //dep_amount is the lifetime in years until salvage value of $0
+                    sumOfAllYears = 0;
+                    yearsSoFar = 0;
+                    for(x = 1; x <= dep_amount; x++)
+                        sumOfAllYears += x;
+                    for(x = dep_amount - (i-assetDate.getFullYear()); x <= dep_amount; x++)
+                        yearsSoFar += x;
+                    data_array.push([ i.toString(), Math.round(purchase_price-(yearsSoFar/sumOfAllYears * purchase_price)) ]);
+                }
+            }
+
+            var data = google.visualization.arrayToDataTable(data_array);
+
+            /* var data = google.visualization.arrayToDataTable([
+            ['Year', 'Asset Value'],
+            ['2004',  1000],
+            ['2005',  1170],
+            ['2006',  660],
+            ['2007',  1030]
+            ]); */
+
+            var options = {
+                title: 'Depreciated Value',
+                hAxis: {
+                    title: 'Year'
+                },
+                vAxis: {
+                    title: 'Salvage Value (USD)'
+                },
+                series: {
+                    1: {curveType: 'function'}
+                },
+                width: 700,
+                height: 350
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('dep_chart'+id));
+
+            chart.draw(data, options);
+        }
 
         const size = 10;
         function pageButtons(pages) {

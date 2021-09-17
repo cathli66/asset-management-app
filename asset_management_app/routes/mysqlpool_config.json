@@ -1,7 +1,7 @@
 {
-    "user"            : "root",
-    "password"        : "Nightstorm66",
-    "host"            : "localhost",
+    "user"            : "cli",
+    "password"        : "Test4321*",
+    "host"            : "192.168.12.202",
     "port"            : 3306,
     "database"        : "asset_management"
 }

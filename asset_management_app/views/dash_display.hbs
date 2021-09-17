@@ -30,7 +30,7 @@
 
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
-            <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
+            <li><img src="logo_noBackground.png" class="logo" alt="logo"></li>
             <li><a href="/dash" class="navtext">DASHBOARD</a></li>
             <li><a href="/search" class="navtext">SEARCH ASSETS</a></li>
             {{#if isAssetAdmin}}
@@ -73,7 +73,7 @@
         </div>
         <h6 style="background-color: rgb(76, 126, 160); color: white; font-size: 13pt; padding: 5px;">REPORTS</h6>
         <div style="text-align: left;">
-            <h3>Total Assets under Management: <span style="color: green; font-size: 25pt; font-weight: bold;">{{totalCost}}</span></h3> 
+            <h3>Total Cost of Assets under Management: <span style="color: green; font-size: 25pt; font-weight: bold;">{{totalCost}}</span></h3> 
             <h3>Total Residual Value: <span style="20pt; font-weight: bold;">{{resVal}}</span></h3>
         </div>
         {{else}}

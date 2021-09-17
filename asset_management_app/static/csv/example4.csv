@@ -1,0 +1,7 @@
+asset_type	manufacturer	asset_name	purchase_price	purchase_date	os_version	serial_number	support_contact	support_expiration	annual_support_cost	depreciation_schedule	depreciated_amount
+Laptop	Apple	2019 MacBook Pro 	1500	2019-09-30	10.15.7	254SFF6	6489259526	2021-03-14	20	Double declining balance	0.1
+Laptop	Apple	2017 13" MacBook Air	800	2017-01-16	10.15.7	13ASDC1	17484658130	2021-02-28	10	Double declining balance	0.1
+Desktop	Microsoft	Surface Studio	5000	2013-08-03		12POWEC	17484611474	2025-10-17	49.99	Double declining balance	0.23
+Desktop	Microsoft	MSI CODEX R 10SC-002US PC	3399.99	2003-06-06		1345DAS	2219835062	2021-06-18	49.99	Double declining balance	0.33
+Desktop	Microsoft	Lenovo Yoga PC	2500	2013-12-11		ASDC2546SC	312031498	2022-12-11	49.99	Double declining balance	0.33
+Software	Microsoft	Server Manager	100	2004-12-20	N/A	N/A	N/A	2021-03-30	100	Straight-line	6

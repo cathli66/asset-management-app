@@ -20,6 +20,7 @@ const bodyParser = require('body-parser');
 // });
 
 // var passenger_config = require('./Passengerfile.json');
+// var server = ldap.createServer();
 
 const {
     PORT = 80,
@@ -47,14 +48,15 @@ app.use(session({
     name: SESS_NAME,
     resave: false,
     saveUninitialized: false,
-    secret: 'are ya winning son?',
+    secret: 'astronautearth',
     cookie: {
         maxAge: SESS_LIFETIME,
-        keys: ['alwayshasbeen', 'melonpie']   // ==> these two keys encrypt the cookie. CHANGE THEM! 
+        keys: ['alwayshasbeen', 'melonpie']   // ==> these two keys encrypt the cookie 
     }
 }));
 
 routes.do_set(app);
+
 
 var listener = app.listen(app.get('port'), function() {
     console.log( 'Express server started on port: ' + listener.address().port);

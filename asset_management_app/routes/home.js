@@ -159,13 +159,8 @@ exports.new_asset = [get_all_ids, function(req, res) {
         res.redirect('/auth');
     }
     else {
-        var new_id = Math.floor(Math.random() * 899 + 100);
-        while (res.locals.all_ids.includes(new_id)) {
-            new_id = Math.floor(Math.random() * 899 + 100);
-        }
         var info = {
             authorized: req.session.isAssetAdmin,
-            asset : [{id: new_id}], 
             isAssetAdmin: req.session.isAssetAdmin,
             isUserAdmin: req.session.isUserAdmin,
             loggedin: req.session.loggedin,

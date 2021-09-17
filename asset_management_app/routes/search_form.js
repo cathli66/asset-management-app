@@ -90,7 +90,7 @@ function get_price(req, res, next) {
     res.locals.price_array = [];
     if (price_range) {
         query_str = 'SELECT * FROM asset_management.asset_list WHERE purchase_price BETWEEN ? and ?';
-        if (price_range == 1) {
+        if (price_range === 1) {
             pool.query(query_str, [r1_start, r2_start], function (error, results, fields) {
                 if (error) throw error;
                 for (i = 0; i < results.length; i++) {
@@ -99,7 +99,7 @@ function get_price(req, res, next) {
                 next();
             });
         }
-        else if (price_range == 2) {
+        else if (price_range === 2) {
             pool.query(query_str, [r2_start, r3_start], function (error, results, fields) {
                 if (error) throw error;
                 for (i = 0; i < results.length; i++) {
@@ -108,7 +108,7 @@ function get_price(req, res, next) {
                 next();
             });  
         }
-        else if (price_range == 3) {
+        else if (price_range === 3) {
             pool.query('SELECT * FROM asset_management.asset_list WHERE purchase_price >= ?', r3_start, function (error, results, fields) {
                 if (error) throw error;
                 for (i = 0; i < results.length; i++) {

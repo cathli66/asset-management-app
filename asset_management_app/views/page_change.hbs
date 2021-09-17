@@ -12,26 +12,18 @@
                 <td>{{this.name}}</td>
                 <td>{{this.type}}</td>
                 <td>{{this.purchase_date}}</td>
-                <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}})"><span class="caret"></span></button></td>
+                <td><button type="button" id="toggle_{{this.id}}" class="expand_button" onclick="expand({{this.id}}, '{{this.dep_sched}}', {{this.dep_amount}}, '{{this.purchase_date}}', {{this.purchase_price}})"><span class="caret"></span></button></td>
             </tr>
             <tr>
-                <td colspan="2" id="{{this.id}}_col1" style="display: none;">
+                <td colspan="2" id="{{this.id}}_col1" style="display: none; padding-left: 100px">
                     <div>
                         <span class="bold">Purchase Price:</span> {{this.purchase_price}} <br>
                         <span class="bold">Manufacturer:</span> {{this.manu}} <br>
                         <span class="bold">Support Expiration:</span> {{this.s_expire}} <br>
-                        <span class="bold">Annual Support cost:</span> {{this.annual_s_cost}} <br>
+                        <span class="bold">Annual Support Cost:</span> {{this.annual_s_cost}} <br>
                         <span class="bold">Depreciation Schedule:</span> {{this.dep_sched}} <br>
                         <span class="bold">Depreciated Amount:</span> {{this.dep_amount}} <br>
                         <span class="bold">Residual Value:</span> {{this.res_val}} <br>
-                        {{!-- {{#if isAssetAdmin}} --}}
-                        <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
-                        {{!-- {{/if}} --}}
-                    </div>
-                </td>
-                <td colspan="3" id="{{this.id}}_col2" style="display: none;">
-                    <div>
-
                         <span class="bold">Firmware Level:</span> {{this.firmware_lvl}} <br>
                         <span class="bold">OS Type:</span> {{this.os_type}} <br>
                         <span class="bold">OS Version:</span> {{this.os_ver}} <br>
@@ -40,6 +32,14 @@
                         <span class="bold">Salution Name:</span> {{this.sal_name}} <br>
                         <span class="bold">Serial Number:</span> {{this.serial}} <br>
                         <span class="bold">Internal Contact:</span> {{this.internal_con}} <br>
+                        {{!-- {{#if isAssetAdmin}} --}}
+                        <button type="button" onclick="edit_info({{this.id}})" class="btn btn-default">Edit</button>
+                        {{!-- {{/if}} --}}
+                    </div>
+                </td>
+                <td colspan="3" id="{{this.id}}_col2" style="display: none;">
+                    <div>
+                        <span><div id="dep_chart{{this.id}}" style="width: 650px; height: 350px;"></div></span>
                     </div>
                 </td>
             </tr>

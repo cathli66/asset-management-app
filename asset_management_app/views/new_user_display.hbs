@@ -29,7 +29,7 @@
     {{/if}}
     <nav class="navbar navbar-default container-fluid" id="navbar">
         <ul class="nav navbar-nav">
-            <li><img src="logo_noBackground.png" style="padding: 10px; margin-right: 20px;" alt="logo"></li>
+            <li><img src="logo_noBackground.png" class="logo" alt="logo"></li>
             <li><a href="/dash" class="navtext">DASHBOARD</a></li>
             <li><a href="/search" class="navtext">SEARCH ASSETS</a></li>
             {{#if isAssetAdmin}}
@@ -58,7 +58,7 @@
         </ul>
     </nav>
 
-    {{#if authorized}}
+    {{#if isUserAdmin}}
     <div class="form_container">
         <form id="new_user" class="form" action="new_user_result" method="post">
             <h2>Add New User</h2>

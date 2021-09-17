@@ -1,5 +1,5 @@
-var warningTimeout = 10000; // 840000 = 14 minutes
-var timoutNow = 5000; // 60000 = 1 minute
+var warningTimeout = 840000; // 840000 = 14 minutes
+var timoutNow = 60000; // 60000 = 1 minute
 var warningTimerID,timeoutTimerID;
 
 function startTimer() {

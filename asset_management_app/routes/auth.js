@@ -82,7 +82,9 @@ exports.reset_pwd = function(req, res) {
         var info = {
             loggedin: req.session.loggedin,
             firstname: req.session.firstname,
-            lastname: req.session.lastname
+            lastname: req.session.lastname,
+            isUserAdmin: req.session.isUserAdmin,
+            isAssetAdmin: req.session.isAssetAdmin
         };
         res.render("reset_pwd_form", info);
     }
